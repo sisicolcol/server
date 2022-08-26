@@ -1,7 +1,4 @@
 const AdminModel = require('../models/admin.model');
-// const CommentModel = require('../models/comment.model');
-// const PostModel = require('../models/comment.model');
-// const UserModel = require('../models/user.model');
 
 const { pool } = require('../config/db');
 
@@ -11,15 +8,10 @@ const { errResponse, response } = require('../utilities/response');
 class AdminService {
 
     AdminModel;
-    // CommentModel;
-    // PostModel;
-    // UserModel;
+
 
     constructor() {
         this.AdminModel = new AdminModel();
-        // this.CommentModel = new CommentModel();
-        // this.PostModel = new PostModel();
-        // this.UserModel = new UserModel();
     }
 
     // 사용자 목록 조회
