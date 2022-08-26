@@ -1,4 +1,4 @@
-class AdminModel {
+class AdminRepository {
 
     cosntructor(){}
 
@@ -371,4 +371,4 @@ class AdminModel {
 }
 
 
-module.exports = AdminModel;
+module.exports = AdminRepository;

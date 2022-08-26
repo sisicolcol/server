@@ -1,4 +1,6 @@
-const AdminModel = require('../models/admin.model');
+
+const AdminRepository = require('../repositorys/admin.repository');
+
 
 const { pool } = require('../config/db');
 
@@ -11,7 +13,7 @@ class AdminService {
 
 
     constructor() {
-        this.AdminModel = new AdminModel();
+        this.AdminRepository = new AdminRepository();
     }
 
     // 사용자 목록 조회
@@ -37,7 +39,7 @@ class AdminService {
                 whereQuery += ` AND DATE(createdAt) = DATE(${date})`;
             }
     
-            const adminSelectResult = await this.AdminModel.selectUserList(connection, whereQuery, offset);
+            const adminSelectResult = await this.AdminRepository.selectUserList(connection, whereQuery, offset);
     
             // 로그 디비 넣기
             for (i=0; i<adminSelectResult.length; i+=1){
