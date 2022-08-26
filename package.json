@@ -1,5 +1,5 @@
 {
-    "name": "GridgeTestChallenge",
+    "name": "sisicolol",
     "main": "src/index.js",
     "scripts": {
         "api-docs": "swagger-cli bundle ./swagger/openapi.yaml --outfile build/swagger.yaml --type yaml",

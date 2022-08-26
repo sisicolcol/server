@@ -60,5 +60,5 @@ generating api on swagger
 
 api page
 ```
-http://localhost:3000/api-docs/
+http://localhost:3000/docs
 ```
