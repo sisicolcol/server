@@ -23,7 +23,7 @@
 3. routers/*.router.js - 해당하는 도메인로 라우팅
 4. controllers/*.controller.js - 유효성 검사, 인증처리 등, Controller Layer
 5. services/*.service.js - DB로 데이터 전달 혹은 DB에서 뽑아온 데이터 정제, Service Layer
-6. models/*.model.js - DB 접근 쿼리들의 집합, DataManager Layer
+6. respository/*.repository.js - DB 접근 쿼리들의 집합, DataManager Layer
 7. DataBase
 
 ## How to Run
