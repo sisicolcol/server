@@ -3,7 +3,7 @@ const AdminModel = require('../models/admin.model');
 // const PostModel = require('../models/comment.model');
 // const UserModel = require('../models/user.model');
 
-const { pool } = require('../assets/db');
+const { pool } = require('../config/db');
 
 const baseResponse = require('../utilities/baseResponseStatus')
 const { errResponse, response } = require('../utilities/response');
