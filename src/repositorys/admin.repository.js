@@ -13,9 +13,9 @@ class AdminModel {
     
     selectUserLastLoginTime = async (conn, userIdx) => {
         const selectUserEverythingQuery = `
-            SELECT loginTime
+            SELECT name
             FROM user
-            WHERE userIdx = ?
+            WHERE email = ?
         `;
         const [userRow] = await conn.query(selectUserEverythingQuery, userIdx);
         
