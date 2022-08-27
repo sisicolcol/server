@@ -1,4 +1,4 @@
-const AdminModel = require('../models/admin.model');
+const AdminModel = require('../repositorys/admin.repository');
 // const CommentModel = require('../models/comment.model');
 // const PostModel = require('../models/comment.model');
 // const UserModel = require('../models/user.model');
