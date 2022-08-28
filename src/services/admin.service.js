@@ -1,7 +1,8 @@
-const AdminModel = require('../repositorys/admin.repository');
-// const CommentModel = require('../models/comment.model');
-// const PostModel = require('../models/comment.model');
-// const UserModel = require('../models/user.model');
+
+
+const AdminRepository = require('../repositorys/admin.repository');
+
+
 
 const { pool } = require('../config/db');
 
@@ -11,15 +12,10 @@ const { errResponse, response } = require('../utilities/response');
 class AdminService {
 
     AdminModel;
-    // CommentModel;
-    // PostModel;
-    // UserModel;
+
 
     constructor() {
-        this.AdminModel = new AdminModel();
-        // this.CommentModel = new CommentModel();
-        // this.PostModel = new PostModel();
-        // this.UserModel = new UserModel();
+        this.AdminRepository = new AdminRepository();
     }
 
     // 사용자 목록 조회
@@ -45,7 +41,7 @@ class AdminService {
                 whereQuery += ` AND DATE(createdAt) = DATE(${date})`;
             }
     
-            const adminSelectResult = await this.AdminModel.selectUserList(connection, whereQuery, offset);
+            const adminSelectResult = await this.AdminRepository.selectUserList(connection, whereQuery, offset);
     
             // 로그 디비 넣기
             for (i=0; i<adminSelectResult.length; i+=1){
