@@ -1,9 +1,9 @@
-const AdminModel = require('../models/admin.model');
+const AdminModel = require('../repositorys/admin.repository');
 // const CommentModel = require('../models/comment.model');
 // const PostModel = require('../models/comment.model');
 // const UserModel = require('../models/user.model');
 
-const { pool } = require('../assets/db');
+const { pool } = require('../config/db');
 
 const baseResponse = require('../utilities/baseResponseStatus')
 const { errResponse, response } = require('../utilities/response');
@@ -66,50 +66,52 @@ class AdminService {
     }
 
     // 사용자 상세 정보 조회
-    // retrieveUserDetailList = async (userIdx) => {
-    //     const connection = await pool.getConnection(async (connection) => connection);
-    //     try {
-    //         await connection.beginTransaction();
+    retrieveUserDetailList = async (userIdx) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
 
-    //         const userLastLoginTime = await this.AdminModel.selectUserLastLoginTime(connection, userIdx);
-    //         const userPosts = await this.AdminModel.selectUserPostByUserIdx(connection, userIdx);
-    //         const userPostImg = await this.AdminModel.selectUserProfileImgByUserIdx(connection, userIdx);
-    //         const userPostLikes = await this.AdminModel.selectUserPostLikeByUserIdx(connection, userIdx);
-    //         const userPostReports = await this.AdminModel.selectUserPostReportByUserIdx(connection, userIdx);
-    //         const userComments = await this.AdminModel.selectUserCommentByUserIdx(connection, userIdx);
-    //         const userCommentLikes = await this.AdminModel.selectUserCommentLikeByUserIdx(connection, userIdx);
-    //         const userCommentRepoerts = await this.AdminModel.selectUserCommentReportByUserIdx(connection, userIdx);
-    //         const userFollowingMembers = await this.AdminModel.selectUserFollowingByUserIdx(connection, userIdx);
-    //         const userFollowerMembers = await this.AdminModel.selectUserFollowerByUserIdx(connection, userIdx);
-    //         const userMessages = await this.AdminModel.selectUserMessageByUserIdx(connection, userIdx);
+            const userLastLoginTime = await this.AdminModel.selectUserLastLoginTime(connection, userIdx);
+            // const userPosts = await this.AdminModel.selectUserPostByUserIdx(connection, userIdx);
+            // const userPostImg = await this.AdminModel.selectUserProfileImgByUserIdx(connection, userIdx);
+            // const userPostLikes = await this.AdminModel.selectUserPostLikeByUserIdx(connection, userIdx);
+            // const userPostReports = await this.AdminModel.selectUserPostReportByUserIdx(connection, userIdx);
+            // const userComments = await this.AdminModel.selectUserCommentByUserIdx(connection, userIdx);
+            // const userCommentLikes = await this.AdminModel.selectUserCommentLikeByUserIdx(connection, userIdx);
+            // const userCommentRepoerts = await this.AdminModel.selectUserCommentReportByUserIdx(connection, userIdx);
+            // const userFollowingMembers = await this.AdminModel.selectUserFollowingByUserIdx(connection, userIdx);
+            // const userFollowerMembers = await this.AdminModel.selectUserFollowerByUserIdx(connection, userIdx);
+            // const userMessages = await this.AdminModel.selectUserMessageByUserIdx(connection, userIdx);
     
-    //         await this.UserModel.insertUserLog(connection, userIdx, 6);
+            // await this.UserModel.insertUserLog(connection, userIdx, 6);
     
-    //         await connection.commit();
+            await connection.commit();
             
-    //         return response(baseResponse.SUCCESS, 
-    //             [ {'마지막 로그인 시간': userLastLoginTime[0]} ,
-    //             { '작성 게시글': userPosts },
-    //             { '작성 게시글 사진': userPostImg },
-    //             { '좋아요 누른 게시글': userPostLikes },
-    //             { '신고한 게시글': userPostReports },
-    //             { '작성 댓글': userComments },
-    //             { '좋아요 누른 댓글': userCommentLikes },
-    //             { '신고한 댓글': userCommentRepoerts },
-    //             { '이 사용자가 팔로잉하는 사용자': userFollowingMembers },
-    //             { '이 사용자를 팔로잉하는 사용자': userFollowerMembers },
-    //             { '보낸 메시지': userMessages }]
-    //         );
+            return response(baseResponse.SUCCESS, 
+                [
+                     {'마지막 로그인 시간': userLastLoginTime} ,
+                // { '작성 게시글': userPosts },
+                // { '작성 게시글 사진': userPostImg },
+                // { '좋아요 누른 게시글': userPostLikes },
+                // { '신고한 게시글': userPostReports },
+                // { '작성 댓글': userComments },
+                // { '좋아요 누른 댓글': userCommentLikes },
+                // { '신고한 댓글': userCommentRepoerts },
+                // { '이 사용자가 팔로잉하는 사용자': userFollowingMembers },
+                // { '이 사용자를 팔로잉하는 사용자': userFollowerMembers },
+                // { '보낸 메시지': userMessages }
+            ]
+            );
     
-    //     } catch (e) {
-    //         console.log(e);
-    //         await connection.rollback();
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
     
-    //         return errResponse(baseResponse.DB_ERROR);
-    //     } finally {
-    //         connection.release();
-    //     }
-    // }
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 
 
     // // 관리자 권한으로 사용자 정지

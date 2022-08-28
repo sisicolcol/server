@@ -3,7 +3,8 @@ class AdminModel {
     cosntructor(){}
 
     selectUserList = async (conn, whereQuery, offset) => {
-        const adminSelectUserQuery = `SELECT * FROM user WHERE 1 = 1`;
+        const adminSelectUserQuery = `SELECT * FROM user`;
+        // const adminSelectUserQuery = `SELECT * FROM user WHERE 1 = 1`;
         const offsetQuery = ` limit 10 offset ?`;
         const [userRow] = await conn.query(adminSelectUserQuery+whereQuery+offsetQuery, offset);
     
@@ -12,9 +13,9 @@ class AdminModel {
     
     selectUserLastLoginTime = async (conn, userIdx) => {
         const selectUserEverythingQuery = `
-            SELECT loginTime
+            SELECT name
             FROM user
-            WHERE userIdx = ?
+            WHERE email = ?
         `;
         const [userRow] = await conn.query(selectUserEverythingQuery, userIdx);
         

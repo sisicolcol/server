@@ -13,6 +13,7 @@ class AdminController {
     }
 
     getUserList = async (req, res) => {
+        console.log(req.query);
 
         let { id, name, signUpDate, status, page } = req.query;
         
