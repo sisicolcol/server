@@ -129,9 +129,12 @@ class ApplyModel {
     InsertFinishApply = async (conn,apply_id,overtime) => {
         const query = `
         INSERT INTO success_list(apply_id,overtime)
-        values(?,?) 
+        values(?,?); 
+        UPDATE progress_list
+        SET is_success = -1
+        WHERE apply_id = ?
         `;
-        const list = [apply_id,overtime];
+        const list = [apply_id,overtime,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
@@ -140,9 +143,12 @@ class ApplyModel {
     insertFail = async (conn,apply_id,reason) => {
         const query = `
         INSERT INTO failed_list(apply_id,reason)
-        values(?,?) 
+        values(?,?); 
+        UPDATE progress_list
+        SET is_success = -1
+        WHERE apply_id = ?
         `;
-        const list = [apply_id,reason];
+        const list = [apply_id,reason,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
