@@ -13,6 +13,27 @@ class ApplyService {
         this.ApplyModel = new ApplyModel();
     }
 
+    //Test용
+    makeTableS = async () => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            const applySelectResult = await this.ApplyModel.makeTable(connection);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,applySelectResult);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
     // 시각장애인 지원 목록 조회 (apply)
     retrieveApplyList = async () => {
         const connection = await pool.getConnection(async (connection) => connection);
@@ -95,6 +116,91 @@ class ApplyService {
             connection.release();
         }
     }
+
+    // 신청 목록) 매칭 헬퍼 목록 조회하기
+    retrieveHelper = async (apply_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.selectHelperList(connection,apply_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        }
+    }
+
+    //신청 목록) 매칭 헬퍼 이력서 조회하기
+    retrieveHelperResume = async (hp_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.selectHelperResume(connection,hp_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
+    //지원한 헬퍼) 목록 조회하기
+    retrieveListByHelper = async (mem_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.selectListByHelper(connection,mem_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
+    // 지원한 헬퍼) 수락하기/거절하기
+    acceptService = async (is_success,pg_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.updateHelper(connection,is_success,pg_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
 }
 
 module.exports = ApplyService;

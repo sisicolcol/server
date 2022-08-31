@@ -10,6 +10,13 @@ class ApplyController {
         this.ApplyService = new ApplyService();
     }
 
+    //Test용
+    makeP = async (req,res)=>{
+        const retrieveApplyResult = await this.ApplyService.makeTableS();
+
+        return res.send(retrieveApplyResult);
+    }
+
     getApplyList = async (req,res)=>{
         const retrieveApplyResult = await this.ApplyService.retrieveApplyList();
 
@@ -53,6 +60,65 @@ class ApplyController {
         }
 
         const Result = await this.ApplyService.retrieveApplyDetail(apply_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //신청 목록) 매칭 헬퍼 목록 조회하기
+    getHelperList = async (req,res)=>{
+        const apply_id = req.body.apply_id;
+
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.retrieveHelper(apply_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //신청 목록) 매칭 헬퍼 이력서 조회하기
+    getHelperResume = async (req,res)=>{
+        const hp_id = req.body.hp_id;
+
+        if(!hp_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (hp_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.retrieveHelperResume(hp_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //지원한 헬퍼) 목록 조회하기
+    getHelperListByMemId = async (req,res)=>{
+        const mem_id = req.params.mem_id;
+        if(!mem_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (mem_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.retrieveListByHelper(mem_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    // 지원한 헬퍼) 수락하기/거절하기
+    UpdateAccpet = async (req,res)=>{
+        const is_success = req.body.is_success;
+        const pg_id = req.body.pg_id;
+        if(!pg_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (pg_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.acceptService(is_success,pg_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
