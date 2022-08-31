@@ -201,6 +201,48 @@ class ApplyService {
         } 
     }
 
+    //활동지원 서비스 완료
+    finishService = async (apply_id,overtime) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.InsertFinishApply(connection,apply_id,overtime);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
+    //활동지원 서비스 파투
+    failService = async (apply_id,reason) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.insertFail(connection,apply_id,reason);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
 }
 
 module.exports = ApplyService;

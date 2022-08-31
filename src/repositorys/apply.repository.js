@@ -22,22 +22,13 @@ class ApplyModel {
         `
 
         const query4 = `
-        create table progress_list (
-            pg_id int primary key auto_increment,
+        create table failed_list (
+            failed_list_id int primary key auto_increment,
             apply_id INT,
-            mem_id VARCHAR(30),
-            hp_id VARCHAR(30),
-            hp_dic_id VARCHAR(30),
-            is_new BOOLEAN,
-            new_idc VARCHAR(30),
-            is_success INT,
-            memo TEXT,
-            apply_date DATE,
-            start_point VARCHAR(30),
-            end_point VARCHAR(30)
+            reason text
             );
         `
-        const result = await conn.query(query);
+        const result = await conn.query(query4);
 
         return result;
 
@@ -130,6 +121,28 @@ class ApplyModel {
         WHERE pg_id = ?
         `;
         const list = [is_success,pg_id];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
+
+    //활동지원 서비스 완료
+    InsertFinishApply = async (conn,apply_id,overtime) => {
+        const query = `
+        INSERT INTO success_list(apply_id,overtime)
+        values(?,?) 
+        `;
+        const list = [apply_id,overtime];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
+
+    //활동지원 서비스 파투
+    insertFail = async (conn,apply_id,reason) => {
+        const query = `
+        INSERT INTO failed_list(apply_id,reason)
+        values(?,?) 
+        `;
+        const list = [apply_id,reason];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
