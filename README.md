@@ -33,8 +33,6 @@
 
 ```
 npm run start
-```
-
 npm run dev
 
 ```
@@ -81,6 +79,8 @@ api page
 ```
 
 http://localhost:3000/docs
+
+```
 
 ```
 
