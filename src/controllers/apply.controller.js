@@ -122,6 +122,36 @@ class ApplyController {
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
+
+    //활동지원 서비스 완료
+    finishApply = async (req,res)=>{
+        const apply_id = req.body.apply_id;
+        const overtime = req.body.overtime;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.finishService(apply_id,overtime);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //활동지원 서비스 완료
+    failApply = async (req,res)=>{
+        const apply_id = req.body.apply_id;
+        const reason = req.body.reason;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.failService(apply_id,reason);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
 }
 
 module.exports = ApplyController;
