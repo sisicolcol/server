@@ -12,8 +12,8 @@ class ChatController {
     // 채팅 목록 가지고 오기
     getMyChatLists = async (req, res) =>  {
         
-        // jwt 미들웨어에서 가지고 오나?
-        const member_no = req.body.userIdx;
+        // 임시로
+        const member_no = req.param.mem_no;
 
         if (!member_no){
             return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_EMPTY));

@@ -6,7 +6,7 @@ const chatRouter = (router) => {
     this.ChatController = new ChatController();
 
     // 내 채팅 목록 가지고오기
-    router.get('/chat/list', this.ChatController.getMyChatLists );
+    router.get('/chat/list:mem_no', this.ChatController.getMyChatLists );
 
 
 }
