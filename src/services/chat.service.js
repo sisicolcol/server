@@ -48,21 +48,6 @@ class ChatService {
         }
     }
 
-
-    createUserChat = async (mem_no, content) => {
-        const connection = await pool.getConnection(async (connection) => connection);
-        try {
-            const insertChatResult = await this.
-
-            connection.release();
-
-            return userChats;
-        } catch (err) {
-            console.log(err);
-
-            return errResponse();
-        }
-    }
 }
 
 module.exports = ChatService;
