@@ -16,7 +16,7 @@ class ChatService {
         this.ChatroomRepository = new ChatroomRepository();
     }
 
-    retrieveChatList = async (member_no) => { 
+    retrieveChatRooms = async (member_no) => { 
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             const checkList = await this.ChatRepository.selectUserChatRooms(connection, member_no);

@@ -10,7 +10,7 @@ class ChatController {
     }
 
     // 채팅 목록 가지고 오기
-    getMyChatLists = async (req, res) =>  {
+    getMyChatRooms = async (req, res) =>  {
         
         // 임시로
         const member_no = req.param.mem_no;
@@ -21,7 +21,7 @@ class ChatController {
             return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_LENGTH));
         }
 
-        const retrieveChatList = await this.ChatService.retrieveChatList(member_no);
+        const retrieveChatList = await this.ChatService.retrieveChatRooms(member_no);
     
         return res.send(retrieveChatList);
     }
