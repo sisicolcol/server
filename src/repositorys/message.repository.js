@@ -1,5 +1,5 @@
 
-class ChatRepository {
+class MessageRepository {
     constructor(){}
 
     selectUserChatRooms = async (connection, mem_no) => {
@@ -54,4 +54,4 @@ class ChatRepository {
     }
 }
 
-module.exports = ChatRepository;
+module.exports = MessageRepository;

@@ -1,12 +1,12 @@
-const ChatService = require('../services/chat.service');
+const MessageService = require('../services/message.service');
 const baseResponseStatus = require('../utilities/baseResponseStatus');
 const { errResponse } = require('../utilities/response');
 
-class ChatController {
-    ChatService;
+class MessageController {
+    MessageService;
 
     constructor() {
-        this.ChatService = new ChatService();
+        this.MessageService = new MessageService();
     }
 
     // 채팅 목록 가지고 오기
@@ -21,7 +21,7 @@ class ChatController {
             return res.send(errResponse(baseResponseStatus.USER_USERID_LENGTH));
         }
 
-        const retrieveChatList = await this.ChatService.retrieveChatRooms(mem_no);
+        const retrieveChatList = await this.MessageService.retrieveChatRooms(mem_no);
     
         return res.send(retrieveChatList);
     }
@@ -41,7 +41,7 @@ class ChatController {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
         }
  
-        const userChats = await this.ChatService.retrieveUserChats(mem_no, partner_mem_no);
+        const userChats = await this.MessageService.retrieveUserChats(mem_no, partner_mem_no);
 
         return res.send(userChats);
     }
@@ -62,10 +62,10 @@ class ChatController {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
         }
  
-        const postedUserChat = await this.ChatService.createUserChat(partner_mem_no, content);
+        const postedUserChat = await this.MessageService.createUserChat(partner_mem_no, content);
 
         return res.send(postedUserChat);
     }
 }
 
-module.exports = ChatController;
+module.exports = MessageController;

@@ -1,25 +1,25 @@
 
 const { pool } = require('../config/db');
 
-const ChatRepository = require('../repositorys/chat.repository');
+const MessageRepository = require('../repositorys/message.repository');
 const ChatroomRepository = require('../repositorys/room.repository');
 const baseResponseStatus = require('../utilities/baseResponseStatus');
 
 const { errResponse } = require('../utilities/response');
 
 class ChatService {
-    ChatRepository;
+    MessageRepository;
     ChatroomRepository;
 
     constructor() {
-        this.ChatRepository = new ChatRepository();
+        this.MessageRepository = new MessageRepository();
         this.ChatroomRepository = new ChatroomRepository();
     }
 
     retrieveChatRooms = async (member_no) => { 
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const checkList = await this.ChatRepository.selectUserChatRooms(connection, member_no);
+            const checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
 
             connection.release();
 
@@ -36,7 +36,7 @@ class ChatService {
         try {
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
 
-            const userChats = await this.ChatRepository.selectUserChats(connection, checkList[0]);
+            const userChats = await this.MessageRepository.selectUserChats(connection, checkList[0]);
 
             connection.release();
 
@@ -51,7 +51,7 @@ class ChatService {
     createUserChat = async (mem_no, content) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const insertChatResult = await this.ChatRepository.insertUserChat(connection, mem_no, content);
+            const insertChatResult = await this.MessageRepository.insertUserChat(connection, mem_no, content);
             connection.release();
 
             return insertChatResult;
