@@ -48,6 +48,20 @@ class ChatService {
         }
     }
 
+    createUserChat = async (mem_no, content) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            const insertChatResult = await this.ChatRepository.insertUserChat(connection, mem_no, content);
+            connection.release();
+
+            return insertChatResult;
+        } catch (err) {
+            console.log(err);
+
+            return errResponse(baseResponseStatus.DB_ERROR);
+        }
+    }
+
 }
 
 module.exports = ChatService;

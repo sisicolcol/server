@@ -26,7 +26,7 @@ class ChatController {
         return res.send(retrieveChatList);
     }
 
-    
+
     getChats = async (req, res) => {
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
         const {mem_no, partner_mem_no} = req.param;
@@ -47,7 +47,24 @@ class ChatController {
     }
 
     postChat = async (req, res) => {
+        const partner_mem_no = req.param.partner_mem_no;
+        const content = req.body.content;
 
+        if (!content){
+            return res.send(errResponse(baseResponseStatus.MESSAGE_CONTENT_EMPTY));
+        } else if (content < 100){
+            return res.send(errResponse(baseResponseStatus.MESSAGE_CONTENT_LENGTH));
+        }
+
+        if (!partner_mem_no) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
+        } else if (partner_mem_no < 1) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
+        }
+ 
+        const postedUserChat = await this.ChatService.createUserChat(partner_mem_no, content);
+
+        return res.send(postedUserChat);
     }
 }
 

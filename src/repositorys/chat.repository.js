@@ -44,6 +44,14 @@ class ChatRepository {
         return result;
     }
 
+    insertUserChat = async (conn, partner_mem_no, content) => {
+        const insertChatQuery = `
+            insert message()
+        `;
+        const [result] = await conn.query(insertChatQuery, partner_mem_no, content);
+
+        return result;
+    }
 }
 
 module.exports = ChatRepository;
