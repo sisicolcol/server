@@ -44,11 +44,12 @@ class MessageRepository {
         return result;
     }
 
-    insertUserChat = async (conn, partner_mem_no, content) => {
+    insertUserChat = async (conn, me_mem_no ,partner_mem_no, content) => {
         const insertChatQuery = `
-            insert message()
+            INSERT INTO message(chat_room_no, sender_no, reciver_no, content)
+            values(?,?,?,?,?)
         `;
-        const [result] = await conn.query(insertChatQuery, partner_mem_no, content);
+        const [result] = await conn.query(insertChatQuery, [chat_room_no, me_mem_no, partner_mem_no, content]);
 
         return result;
     }
