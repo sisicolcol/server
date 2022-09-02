@@ -12,61 +12,38 @@ class ChatController {
     // 채팅 목록 가지고 오기
     getMyChatRooms = async (req, res) =>  {
         
-        // 임시로
-        const member_no = req.param.mem_no;
+        // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
+        const mem_no = req.param.mem_no;
 
-        if (!member_no){
-            return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_EMPTY));
-        } else if (member_no < 1){
-            return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_LENGTH));
+        if (!mem_no){
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
+        } else if (mem_no < 1){
+            return res.send(errResponse(baseResponseStatus.USER_USERID_LENGTH));
         }
 
-        const retrieveChatList = await this.ChatService.retrieveChatRooms(member_no);
+        const retrieveChatList = await this.ChatService.retrieveChatRooms(mem_no);
     
         return res.send(retrieveChatList);
     }
 
-    // 채팅 전송하기
-    // postChat = async (req, res) => {
-        
-    //     const { member_no, recieve_user_no, content} = req.body;
+    getChats = async (req, res) => {
+        // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
+        // const chat_room_no = req.param.chat_room_no;
 
-    //     if (!member_no){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_EMPTY));
-    //     } else if (member_no < 1){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_LENGTH));
-    //     }
+        // if (!chat_room_no) {
+        //     return res.send(errResponse(baseResponseStatus.CHAT_CHATROOM_EMPTY));
+        // } else if (chat_room_no < 1) {
+        //     return res.send(errResponse(baseResponseStatus.CHAT_CHATROOM_LENGTH));
+        // }
+ 
+        // const userChats = await this.ChatService.retrieveUserChats(chat_room_no);
 
-    //     if (!recieve_user_no){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_EMPTY));
-    //     } else if (recieve_user_no < 1){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_LENGTH));
-    //     }
+        // return res.send(userChats);
+    }
 
-    //     if (!content){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_CONTENT_EMPTY));
-    //     }
+    postChat = async (req, res) => {
 
-    //     const insertChat = await this.ChatService.createChat(member_no, recieve_user_no, content);
-
-    //     return res.send(insertChat);
-    // }
-
-    // // 특정 상대와의 채팅 목록 가져오기
-    // getChats = async (req, res) => {
-
-    //     const chat_room_no = req.body.chat_room_no;
-
-    //     if (!chat_room_no){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_EMPTY));
-    //     } else if (chat_room_no < 1){
-    //         return res.send(errResponse(baseResponseStatus.MESSAGE_USERIDX_LENGTH));
-    //     }
-
-    //     const insertChat = await this.ChatService.retrieveUserChats(chat_room_no);
-
-    //     return res.send(insertChat);
-    // }
+    }
 }
 
 module.exports = ChatController;

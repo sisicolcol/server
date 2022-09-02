@@ -31,43 +31,43 @@ class ChatService {
         }
     }
 
-    // createChat = async(user_no, parnter_no) => {
-    //     const connection = await pool.getConnection(async (connection) => connection);
-    //     try {
-    //         const checkRoomExistParm = [user_no, parnter_no, partner_no, user_no];
-    //         const roomExistResult = await this.ChatRepository.checkRoomExists(connection, checkRoomExistParm);
+    createChat = async(user_no, parnter_no) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            const checkRoomExistParm = [user_no, parnter_no, partner_no, user_no];
+            const roomExistResult = await this.ChatRepository.checkRoomExists(connection, checkRoomExistParm);
 
-    //         if (roomExistResult[0] == null){
-    //             await this.ChatRoomRepository.insertRoom(connection, user_no, parnter_no);
-    //         }
+            if (roomExistResult[0] == null){
+                await this.ChatRoomRepository.insertRoom(connection, user_no, parnter_no);
+            }
 
-    //         const checkList = await this.ChatroomRepository.insertChatRoom(connection, member_no);
+            const checkList = await this.ChatroomRepository.insertChatRoom(connection, member_no);
 
-    //         connection.release();
+            connection.release();
 
-    //         return checkList;
-    //     } catch (err) {
-    //         console.log(err);
+            return checkList;
+        } catch (err) {
+            console.log(err);
 
-    //         return errResponse();
-    //     }
-    // }
+            return errResponse();
+        }
+    }
 
-    // retrieveUserChats = async () => {
-    //     const connection = await pool.getConnection(async (connection) => connection);
-    //     try {
+    retrieveUserChats = async () => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
 
-    //         const checkList = await this.ChatRepository.selectUserChats(member_no);
+            const checkList = await this.ChatRepository.selectUserChats(member_no);
 
-    //         connection.release();
+            connection.release();
 
-    //         return checkList;
-    //     } catch (err) {
-    //         console.log(err);
+            return checkList;
+        } catch (err) {
+            console.log(err);
 
-    //         return errResponse();
-    //     }  
-    // }
+            return errResponse();
+        }  
+    }
 }
 
 module.exports = ChatService;
