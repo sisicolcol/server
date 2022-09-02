@@ -1,6 +1,9 @@
 class HelperRepository {
     constructor(){}
 
+    // 활동 지원 서비스 신청하기
+
+
     //퀵 활동 지원 서비스) 목록 조회하기
     selectQuick = async (conn) => {
         let date = new Date();
