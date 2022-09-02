@@ -31,42 +31,21 @@ class ChatService {
         }
     }
 
-    createChat = async(user_no, parnter_no) => {
+    retrieveUserChats = async (mem_no, partner_mem_no) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const checkRoomExistParm = [user_no, parnter_no, partner_no, user_no];
-            const roomExistResult = await this.ChatRepository.checkRoomExists(connection, checkRoomExistParm);
+            const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
 
-            if (roomExistResult[0] == null){
-                await this.ChatRoomRepository.insertRoom(connection, user_no, parnter_no);
-            }
-
-            const checkList = await this.ChatroomRepository.insertChatRoom(connection, member_no);
+            const userChats = await this.ChatRepository.selectUserChats(connection, checkList[0]);
 
             connection.release();
 
-            return checkList;
+            return userChats;
         } catch (err) {
             console.log(err);
 
-            return errResponse();
+            return errResponse(baseResponseStatus.DB_ERROR);
         }
-    }
-
-    retrieveUserChats = async () => {
-        const connection = await pool.getConnection(async (connection) => connection);
-        try {
-
-            const checkList = await this.ChatRepository.selectUserChats(member_no);
-
-            connection.release();
-
-            return checkList;
-        } catch (err) {
-            console.log(err);
-
-            return errResponse();
-        }  
     }
 }
 

@@ -26,19 +26,24 @@ class ChatController {
         return res.send(retrieveChatList);
     }
 
+    
     getChats = async (req, res) => {
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
-        // const chat_room_no = req.param.chat_room_no;
+        const {mem_no, partner_mem_no} = req.param;
 
-        // if (!chat_room_no) {
-        //     return res.send(errResponse(baseResponseStatus.CHAT_CHATROOM_EMPTY));
-        // } else if (chat_room_no < 1) {
-        //     return res.send(errResponse(baseResponseStatus.CHAT_CHATROOM_LENGTH));
-        // }
+        if (!mem_no) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
+        } else if (mem_no < 1) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
+        } else if (!partner_mem_no) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
+        } else if (partner_mem_no < 1) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
+        }
  
-        // const userChats = await this.ChatService.retrieveUserChats(chat_room_no);
+        const userChats = await this.ChatService.retrieveUserChats(mem_no, partner_mem_no);
 
-        // return res.send(userChats);
+        return res.send(userChats);
     }
 
     postChat = async (req, res) => {

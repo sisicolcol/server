@@ -4,7 +4,7 @@ class ChatRepository {
 
     selectUserChatRooms = async (connection, mem_no) => {
         const selectQuery =`
-            SELECT message.content ,user2.mem_name, message.chat_room_no,
+            SELECT message.content ,user1.mem_name, user1.mem_no , user2.mem_no , message.chat_room_no,
             case
                 when timestampdiff(minute, message.created_at, current_timestamp) < 60
                     then CONCAT(TIMESTAMPDIFF(minute, message.created_at , NOW()), '분')
@@ -28,6 +28,18 @@ class ChatRepository {
             inner JOIN member as user2 on user2.mem_no = last_message.sender_no
         `;
         const [result] = await connection.query(selectQuery, [mem_no, mem_no]);
+
+        return result;
+    }
+
+    selectUserChats = async (conn, chat_room_no) => {
+        const selectChatsQuery = `
+            SELECT content, updated_at
+            FROM message
+            WHERE chat_room_no = ?
+            ORDER BY message_no
+        `;
+        const [result] = await conn.query(selectChatsQuery, chat_room_no);
 
         return result;
     }
