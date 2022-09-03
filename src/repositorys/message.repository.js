@@ -44,7 +44,7 @@ class MessageRepository {
         return result;
     }
 
-    insertUserChat = async (conn, me_mem_no ,partner_mem_no, content) => {
+    insertUserChat = async (conn, chat_room_no, me_mem_no ,partner_mem_no, content) => {
         const insertChatQuery = `
             INSERT INTO message(chat_room_no, sender_no, reciver_no, content)
             values(?,?,?,?,?)

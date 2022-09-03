@@ -47,7 +47,7 @@ class MessageController {
     }
 
     postChat = async (req, res) => {
-        const partner_mem_no = req.param.partner_mem_no;
+        const { chat_room_no, me_mem_no, partner_mem_no} = req.param;
         const content = req.body.content;
 
         if (!content){
@@ -56,13 +56,19 @@ class MessageController {
             return res.send(errResponse(baseResponseStatus.MESSAGE_CONTENT_LENGTH));
         }
 
+        if (!me_mem_no) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
+        } else if (me_mem_no < 1) {
+            return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
+        }
+
         if (!partner_mem_no) {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
         } else if (partner_mem_no < 1) {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
         }
  
-        const postedUserChat = await this.MessageService.createUserChat(partner_mem_no, content);
+        const postedUserChat = await this.MessageService.createUserChat(chat_room_no, me_mem_no, partner_mem_no, content);
 
         return res.send(postedUserChat);
     }

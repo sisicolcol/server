@@ -48,10 +48,10 @@ class ChatService {
         }
     }
 
-    createUserChat = async (mem_no, content) => {
+    createUserChat = async (chat_room_no, me_mem_no, partner_mem_no, content) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const insertChatResult = await this.MessageRepository.insertUserChat(connection, mem_no, content);
+            const insertChatResult = await this.MessageRepository.insertUserChat(connection, chat_room_no, me_mem_no ,partner_mem_no, content);
             connection.release();
 
             return insertChatResult;
