@@ -24,4 +24,4 @@ const hpApplyRouter = (router)=>{
 
 }
 
-module.exports = applyRouter;
+module.exports = hpApplyRouter;
