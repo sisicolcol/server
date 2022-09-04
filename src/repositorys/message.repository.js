@@ -4,7 +4,7 @@ class MessageRepository {
 
     selectUserChatRooms = async (connection, mem_no) => {
         const selectQuery =`
-            SELECT message.content as '최근 메시지' ,user1.mem_name, user1.mem_no , user2.mem_no , message.chat_room_no,
+            SELECT message.content as '최근 메시지' ,user1.mem_name, user1.mem_no as '상대방 식별자', message.chat_room_no,
             case
                 when timestampdiff(second, message.created_at, current_timestamp) < 60
                     then CONCAT(TIMESTAMPDIFF(second, message.created_at , NOW()), '초')
