@@ -13,7 +13,7 @@ class MessageController {
     getMyChatRooms = async (req, res) =>  {
         
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
-        const mem_no = req.param.mem_no;
+        const mem_no = req.param.query;
 
         if (!mem_no){
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
@@ -29,7 +29,7 @@ class MessageController {
 
     getChats = async (req, res) => {
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
-        const {mem_no, partner_mem_no} = req.param;
+        const {mem_no, partner_mem_no} = req.query;
 
         if (!mem_no) {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
@@ -47,7 +47,7 @@ class MessageController {
     }
 
     postChat = async (req, res) => {
-        const { chat_room_no, me_mem_no, partner_mem_no} = req.param;
+        const { chat_room_no, me_mem_no, partner_mem_no} = req.query;
         const content = req.body.content;
 
         if (!content){

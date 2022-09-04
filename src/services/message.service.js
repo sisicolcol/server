@@ -62,6 +62,20 @@ class ChatService {
         }
     }
 
+    retrieveChatInfo = async () => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            const insertChatResult = await this.MessageRepository.insertUserChat(connection, chat_room_no, me_mem_no ,partner_mem_no, content);
+            connection.release();
+
+            return insertChatResult;
+        } catch (err) {
+            console.log(err);
+
+            return errResponse(baseResponseStatus.DB_ERROR);
+        }
+    }
+
 }
 
 module.exports = ChatService;
