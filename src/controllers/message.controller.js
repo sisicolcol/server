@@ -29,7 +29,7 @@ class MessageController {
 
     getChats = async (req, res) => {
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
-        const {mem_no, partner_mem_no} = req.query;
+        const {mem_no, partner_mem_no, apply_id} = req.query;
 
         if (!mem_no) {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
@@ -41,7 +41,7 @@ class MessageController {
             return res.send(errResponse(baseResponseStatus.USER_USERIDX_LENGTH));
         }
  
-        const userChats = await this.MessageService.retrieveUserChats(mem_no, partner_mem_no);
+        const userChats = await this.MessageService.retrieveUserChats(mem_no, partner_mem_no, apply_id);
 
         return res.send(userChats);
     }
