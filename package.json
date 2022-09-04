@@ -5,7 +5,8 @@
         "api-docs": "swagger-cli bundle ./swagger/openapi.yaml --outfile build/swagger.yaml --type yaml",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "NODE_ENV=development node src/index.js",
-        "start:dev": "NODE_ENV=development nodemon src/index.js"
+        "start2": "node src/index.js",
+        "dev" : "nodemon src/index.js"
     },
     "dependencies": {
         "axios": "^0.27.2",
@@ -19,6 +20,7 @@
     },
     "devDependencies": {
         "nodemon": "^2.0.19",
+        "swagger-autogen": "^2.21.5",
         "swagger-cli": "^4.0.4",
         "swagger-jsdoc": "^6.2.4",
         "swagger-ui-express": "^4.5.0"
