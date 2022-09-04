@@ -37,10 +37,10 @@ class ChatService {
     retrieveUserChats = async (mem_no, partner_mem_no) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
+
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
             const partnerName = await this.MemberRepository.selectUserNameByIndex(connection, partner_mem_no);
 
-            console.log(checkList[0].chat_room_no);
             const userChats = await this.MessageRepository.selectUserChats(connection, checkList[0].chat_room_no);
 
             connection.release();
@@ -60,26 +60,11 @@ class ChatService {
     createUserChat = async (chat_room_no, me_mem_no, partner_mem_no, content) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const insertChatResult = await this.MessageRepository.insertUserChat(connection, chat_room_no, me_mem_no ,partner_mem_no, content);
+            await this.MessageRepository.insertUserChat(connection, chat_room_no, me_mem_no, partner_mem_no, content);
+            
             connection.release();
 
             return response(baseResponseStatus.SUCCESS);
-        } catch (err) {
-            console.log(err);
-
-            return errResponse(baseResponseStatus.DB_ERROR);
-        }
-    }
-
-    retrieveChatInfo = async () => {
-        const connection = await pool.getConnection(async (connection) => connection);
-        try {
-
-            const helloMessage = await this.MessageRepository.insertUserChat(connection, );
-
-            connection.release();
-
-            return insertChatResult;
         } catch (err) {
             console.log(err);
 
