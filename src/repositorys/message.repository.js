@@ -4,7 +4,7 @@ class MessageRepository {
 
     selectUserChatRooms = async (connection, mem_no) => {
         const selectQuery =`
-            SELECT message.content ,user1.mem_name, user1.mem_no , user2.mem_no , message.chat_room_no,
+            SELECT message.content as '최근 메시지' ,user1.mem_name, user1.mem_no , user2.mem_no , message.chat_room_no,
             case
                 when timestampdiff(minute, message.created_at, current_timestamp) < 60
                     then CONCAT(TIMESTAMPDIFF(minute, message.created_at , NOW()), '분')
@@ -47,12 +47,13 @@ class MessageRepository {
     insertUserChat = async (conn, chat_room_no, me_mem_no ,partner_mem_no, content) => {
         const insertChatQuery = `
             INSERT INTO message(chat_room_no, sender_no, reciver_no, content)
-            values(?,?,?,?,?)
+            values(?,?,?,?)
         `;
         const [result] = await conn.query(insertChatQuery, [chat_room_no, me_mem_no, partner_mem_no, content]);
 
         return result;
     }
+
 }
 
 module.exports = MessageRepository;
