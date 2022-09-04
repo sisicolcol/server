@@ -6,6 +6,8 @@ class MessageRepository {
         const selectQuery =`
             SELECT message.content as '최근 메시지' ,user1.mem_name, user1.mem_no , user2.mem_no , message.chat_room_no,
             case
+                when timestampdiff(second, message.created_at, current_timestamp) < 60
+                    then CONCAT(TIMESTAMPDIFF(second, message.created_at , NOW()), '초')
                 when timestampdiff(minute, message.created_at, current_timestamp) < 60
                     then CONCAT(TIMESTAMPDIFF(minute, message.created_at , NOW()), '분')
                 when timestampdiff(hour , message.created_at, current_timestamp) < 24
