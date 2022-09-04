@@ -31,7 +31,7 @@ const server = () => {
     );
 
     app.listen(SERVER_PORT, () => {
-        console.log(`GridgeTestServer is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
+        console.log(`sisicolcol-server is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
     });
     
 };
