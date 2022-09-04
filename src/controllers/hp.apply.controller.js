@@ -26,12 +26,12 @@ class HpApplyController {
     }
 
     // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
-    postHpApplyList = async(req,res)=>{
+    getHpApplyList = async(req,res)=>{
 
     }
 
     // 헬퍼 지원 목록) 공고 자세히 보기
-    postHpApplyDetail = async(req,res)=>{
+    getHpApplyDetail = async(req,res)=>{
 
     }
 

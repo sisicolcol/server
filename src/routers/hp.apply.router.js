@@ -14,10 +14,10 @@ const hpApplyRouter = (router)=>{
     router.post('/hp/apply',this.HpApplyController.postHpApply);
 
     // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
-    router.get('/hp/applylist',this.HpApplyController.postHpApplyList);
+    router.get('/hp/applylist',this.HpApplyController.getHpApplyList);
 
     // 헬퍼 지원 목록) 공고 자세히 보기
-    router.post('/hp/apply/detail',this.HpApplyController.postHpApplyDetail);
+    router.get('/hp/apply/detail',this.HpApplyController.getHpApplyDetail);
 
     // 헬퍼 마이페이지) 프로필 및 자기소개서 설정
     router.post('/hp/setprofile',this.HpApplyController.postHpProfile);
