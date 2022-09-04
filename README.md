@@ -71,6 +71,8 @@ http://localhost:3000
 generating api on swagger
 
 ```
+cd src
+node .\swagger-generator.js
 
 ```
 
@@ -78,7 +80,7 @@ api page
 
 ```
 
-http://localhost:3000/docs
+http://localhost:3000/swagger/
 
 ```
 
