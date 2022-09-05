@@ -5,7 +5,7 @@ class ApplyModel {
         const query = `
         INSERT INTO progress_list(apply_id, mem_id, hp_id, hp_dic_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point)
             VALUES 
-            (24, "id3", "id7", "3", true, "3", 0, "memomemo", 2022-08-31, "서울역", "강남역");
+            (23, "id3", "id7", "3", true, "3", 0, "memomemo", "2022-08-31", "서울역", "강남역");
         `
 
         const query2 = `
@@ -28,7 +28,7 @@ class ApplyModel {
             reason text
             );
         `
-        const result = await conn.query(query4);
+        const result = await conn.query(query);
 
         return result;
 

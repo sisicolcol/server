@@ -7,6 +7,7 @@ const router = express.Router();
 const messageRouter = require("./message.router");
 const adminRouter = require("./admin.router");
 const applyRouter = require('./apply.router');
+const helperRouter = require('./helper.router');
 
 module.exports = () => {
     
@@ -16,6 +17,7 @@ module.exports = () => {
     messageRouter(router);
     adminRouter(router);
     applyRouter(router);
+    helperRouter(router);
 
     return router;
 }
