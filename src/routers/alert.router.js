@@ -1,4 +1,4 @@
-const AlertController = require('../controllers/hp.apply.controller');
+const AlertController = require('../controllers/alert.controller');
 
 const alertRouter = (router)=>{
 

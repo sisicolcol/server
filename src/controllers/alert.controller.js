@@ -21,10 +21,10 @@ class AlertController {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.HpApplyService.saveToken(mem_token, mem_id);
+        const Result = await this.AlertService.saveToken(mem_token, mem_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
 }
 
-module.exports = HpApplyController;
+module.exports = AlertController;
