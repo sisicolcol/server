@@ -24,17 +24,20 @@ class HpApplyController {
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
-    
-    // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post해서 알림 목록으로
-    postHpApply = async(req,res)=>{
-        const {apply_id, mem_id, hp_id, hp_dic_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point} = req.body;
+
+    postHpApplyNewIdc = async(req,res)=>{
+        const {apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point} = req.body;
 
         const Result = await this.HpApplyService.completeHpApply(
-            apply_id, mem_id, hp_id, hp_dic_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point
+            apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point
         );
 
         return res.send(response(baseResponse.SUCCESS));
-
+    }
+    
+    // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post해서 알림 목록으로
+    postHpApply = async(req,res)=>{
+        
     }
 
     // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
