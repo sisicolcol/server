@@ -1,3 +1,5 @@
+const { query } = require("express")
+
 class ApplyModel {
 
     //Test용
@@ -78,15 +80,25 @@ class ApplyModel {
 
     // 신청 목록) 매칭 헬퍼 목록 조회하기
     selectHelperList = async (conn,apply_id) => {
-        const query = `
+        const q1 = `
             SELECT hp_id
             FROM progress_list
-            WHERE apply_id = ?
+            WHERE apply_id = ? and is_success=1
         `;
 
-        const [Row] = await conn.query(query,apply_id);
+        const q2 = `
+        select mem_name
+        from member
+        where mem_id = ?
+        `
+        const [hp_id] = await conn.query(q1,apply_id);
 
-        return Row;
+        for(let i=0;i<hp_id.length;i++){
+            let hp_name = await conn.query(q2,hp_id[i].hp_id);
+            hp_id[i].hp_name = hp_name[0][0].mem_name
+        }
+
+        return hp_id;
     }
 
     //신청 목록) 매칭 헬퍼 이력서 조회하기
