@@ -25,7 +25,8 @@ class HpApplyController {
         return res.send(response(baseResponse.SUCCESS, Result));
     }
 
-    postHpApplyNewIdc = async(req,res)=>{
+    // 헬퍼 지원 완료하기 -> 알림 목록으로
+    postHpApply = async(req,res)=>{
         const {apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point} = req.body;
 
         const Result = await this.HpApplyService.completeHpApply(
@@ -33,11 +34,6 @@ class HpApplyController {
         );
 
         return res.send(response(baseResponse.SUCCESS));
-    }
-    
-    // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post해서 알림 목록으로
-    postHpApply = async(req,res)=>{
-        
     }
 
     // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
@@ -75,11 +71,17 @@ class HpApplyController {
     postHpProfile = async(req,res)=>{
         const {hp_id, hp_name, hp_idc_id, content} = req.body;
 
+        if(!hp_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
         const Result = await this.HpApplyService.settingHpProfile(
             hp_id, hp_name, hp_idc_id, content
         );
 
-        return res.send(response(baseResponse.SUCCESS));
+        return res.send(response(baseResponse.SUCCESS, Result));
     }
 
 }

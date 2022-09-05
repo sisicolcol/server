@@ -7,9 +7,6 @@ const hpApplyRouter = (router)=>{
     // 헬퍼 퀵/사전 활동 지원 서비스) 지원하기 -기존 자기소개서 보기
     router.get('/hp/apply/:hp_id', this.HpApplyController.getHpApply);
 
-    // 헬퍼 새로운 자기소개서 작성하기
-    router.post('/hp/apply/newidc',this.HpApplyController.postHpApplyNewIdc);
-
     // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post
     router.post('/hp/apply',this.HpApplyController.postHpApply);
 

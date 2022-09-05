@@ -20,11 +20,11 @@ class HpApplyService {
         try {
             await connection.beginTransaction();
 
-            const applySelectResult = await this.HpApplyModel.selectHpIdc(connection, hp_id);
+            const Result = await this.HpApplyModel.selectHpIdc(connection, hp_id);
 
             await connection.commit();
 
-            return response(baseResponse.SUCCESS,applySelectResult);
+            return response(baseResponse.SUCCESS,Result);
         } catch (error) {
             console.log(error);
             await connection.rollback();
@@ -34,12 +34,18 @@ class HpApplyService {
         }
     }
     
-    // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post해서 알림 목록으로
+    // 헬퍼 지원 완료하기 -> 알림 목록으로
     completeHpApply = async (apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point) => {
         const connection = await pool.getConnection(async (connection)=>connection);
         try {
             await connection.beginTransaction();
-            
+
+            const Params = [apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point];
+            const Result = await this.HpApplyModel.insertHpApply(connection, Params);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
         } catch (error) {
             console.log(error);
             await connection.rollback();
@@ -85,6 +91,12 @@ class HpApplyService {
         try {
             await connection.beginTransaction();
             
+            const Params = [hp_id, content, mem_name, mem_id];
+            const Result = await this.HpApplyModel.insertHpProfile(connection, Params);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
         } catch (error) {
             console.log(error);
             await connection.rollback();
