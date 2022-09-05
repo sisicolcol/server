@@ -118,7 +118,11 @@ class ApplyModel {
         const query = `
         UPDATE progress_list
         SET is_success = ?
-        WHERE apply_id = ?
+        WHERE apply_id = ?;
+
+        update apply
+        set is_success = ?
+        where apply_id = ?
         
         `;
         const query2 = `
