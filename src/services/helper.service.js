@@ -55,6 +55,27 @@ class HelperService {
         }
     }
 
+    //나의 지원 목록) 조회하기
+    retrieveMyApply = async (hp_id) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            const applySelectResult = await this.HelperRepository.selectMyApply(connection,hp_id);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,applySelectResult);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
 }
 
 module.exports = HelperService;
