@@ -25,7 +25,10 @@ class ApplyModel {
         INSERT INTO member(mem_id, password, mem_name, mem_phone, mem_gender,mem_card,mem_address,mem_type)
         VALUES ("mem3","3pass","memName3","01022221111","M","memCard3","memAdd3",true);
         `
-        const result = await conn.query(query4);
+        const query5 = `
+        alter table apply modify service_date date;
+        `
+        const result = await conn.query(query5);
 
         return result;
 
