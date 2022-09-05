@@ -36,7 +36,7 @@ class MessageRepository {
 
     selectUserChats = async (conn, chat_room_no) => {
         const selectChatsQuery = `
-            SELECT content as '메시지', DATE_FORMAT(updated_at, '%H:%i') as '전송시각'
+            SELECT content as '메시지', DATE_FORMAT(updated_at, '%H:%i') as '전송시각', sender_no
             FROM message
             WHERE chat_room_no = ?
             ORDER BY message_no
