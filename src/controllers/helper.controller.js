@@ -23,6 +23,14 @@ class HelperController {
 
         return res.send(Result);
     }
+
+    //나의 지원 목록) 조회하기
+    getMyApply = async (req,res)=>{
+        const hp_id = req.params.hp_id;
+        const Result = await this.HelperService.retrieveMyApply(hp_id);
+
+        return res.send(Result);
+    }
 }
 
 module.exports = HelperController;

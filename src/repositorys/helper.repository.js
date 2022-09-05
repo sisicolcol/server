@@ -49,6 +49,18 @@ class HelperRepository {
 
         return Row;
     }
+
+    //나의 지원 목록) 조회하기
+    selectMyApply = async (conn,hp_id) => {
+        const Query = `
+        SELECT apply_id, mem_id, is_success, apply_date FROM progress_list
+        WHERE hp_id = ?
+        `;
+        const [Row] = await conn.query(Query,hp_id);
+
+        return Row;
+    }
+
 }
 
 module.exports=HelperRepository;

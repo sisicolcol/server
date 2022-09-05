@@ -17,18 +17,15 @@ class ApplyModel {
         `
 
         const query3 = `
-        INSERT INTO hp_idc(hp_id, content)
-        VALUES ("id7","자기소개서내용내용7");
+        INSERT INTO member(mem_id, password, mem_name, mem_phone, mem_gender,mem_cert,mem_type)
+        VALUES ("hp3","pass3","hpName3","01022221111","F","hpCertTest3",false);
         `
 
         const query4 = `
-        create table failed_list (
-            failed_list_id int primary key auto_increment,
-            apply_id INT,
-            reason text
-            );
+        INSERT INTO member(mem_id, password, mem_name, mem_phone, mem_gender,mem_card,mem_address,mem_type)
+        VALUES ("mem3","3pass","memName3","01022221111","M","memCard3","memAdd3",true);
         `
-        const result = await conn.query(query);
+        const result = await conn.query(query4);
 
         return result;
 
