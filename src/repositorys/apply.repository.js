@@ -109,7 +109,27 @@ class ApplyModel {
         FROM progress_list
         WHERE mem_id = ?
         `;
-        const [Row] = await conn.query(query,mem_id);
+
+        const q2 = `
+        select hp_id
+        from progress_list
+        where mem_id = ?
+        `;
+
+        const q3 = `
+        select mem_name
+        from member
+        where mem_id = ?
+        `;
+        let hp_id = await conn.query(q2,mem_id);
+        
+        let [Row] = await conn.query(query,mem_id);
+
+        for(let i =0;i<Row.length;i++){
+            let hp_name = await conn.query(q3,hp_id[0][i].hp_id);
+            hp_name = hp_name[0][0].mem_name
+            Row[i].hp_name = hp_name
+        }
         return Row;
     }
 
