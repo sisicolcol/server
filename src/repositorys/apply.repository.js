@@ -26,7 +26,7 @@ class ApplyModel {
         VALUES ("mem3","3pass","memName3","01022221111","M","memCard3","memAdd3",true);
         `
         const query5 = `
-        alter table apply modify service_date date;
+        update apply set is_success=0;
         `
         const result = await conn.query(query5);
 
@@ -44,8 +44,8 @@ class ApplyModel {
     // 시각장애인 활동지원 서비스 신청하기
     insertApply = async (conn, applyParams) => {
         const insertApplyQuery =   `
-            INSERT INTO apply(service_time,start_point,end_point,duration,way,service_date,contents,details,mem_id)
-            values(?,?,?,?,?,?,?,?,?)
+            INSERT INTO apply(service_time,start_point,end_point,duration,way,service_date,contents,details,mem_id,is_success)
+            values(?,?,?,?,?,?,?,?,?,0)
         `
         const [applyRow] = await conn.query(insertApplyQuery,applyParams);
 
@@ -118,9 +118,18 @@ class ApplyModel {
         const query = `
         UPDATE progress_list
         SET is_success = ?
+        WHERE apply_id = ?
+        
+        `;
+        const query2 = `
+        SELECT apply_id
+        FROM progress_list
         WHERE pg_id = ?
         `;
-        const list = [is_success,pg_id];
+        let apply_id = await conn.query(query2,pg_id);
+        apply_id = apply_id[0][0].apply_id;
+        console.log(apply_id);
+        const list = [is_success,apply_id,is_success,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
