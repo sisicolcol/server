@@ -3,6 +3,8 @@ const HpApplyService = require('../services/hp.apply.service');
 const baseResponse = require('../utilities/baseResponseStatus');
 const { errResponse, response } = require('../utilities/response');
 
+const { Expo } = require('expo-server-sdk')
+
 class HpApplyController {
     HpApplyService;
 
@@ -32,6 +34,38 @@ class HpApplyController {
         const Result = await this.HpApplyService.completeHpApply(
             apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point
         );
+        
+        // 헬퍼에게 알림
+        let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
+
+        let messages = [];
+        for (let pushToken of somePushTokens) {
+            if (!Expo.isExpoPushToken(pushToken)) {
+                console.error(`Push token ${pushToken} is not a valid Expo push token`);
+                continue;
+            }
+
+            messages.push({
+                to: pushToken,
+                sound: 'default',
+                body: 'This is a test notification',
+                data: { withSome: 'data' },
+            })
+        }
+
+        let chunks = expo.chunkPushNotifications(messages);
+        let tickets = [];
+        (async () => {
+        for (let chunk of chunks) {
+            try {
+            let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+            console.log(ticketChunk);
+            tickets.push(...ticketChunk);
+            } catch (error) {
+            console.error(error);
+            }
+        }
+        })();
 
         return res.send(response(baseResponse.SUCCESS));
     }
