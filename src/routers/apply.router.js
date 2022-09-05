@@ -17,13 +17,13 @@ const applyRouter = (router)=>{
     router.get('/user/applylist/:mem_id',this.ApplyController.getApplyByMemId);
 
     // 신청목록) 자세한 신청 내용 보기
-    router.get('/user/apply/detail',this.ApplyController.getApplyDetail);
+    router.get('/user/apply/detail/:apply_id',this.ApplyController.getApplyDetail);
 
     // 신청 목록) 매칭 헬퍼 목록 조회하기
-    router.get('/user/helperlist',this.ApplyController.getHelperList);
+    router.get('/user/match/:apply_id',this.ApplyController.getHelperList);
 
     //신청 목록) 매칭 헬퍼 이력서 조회하기
-    router.get('/user/helper/resume',this.ApplyController.getHelperResume);
+    router.get('/user/resume/:hp_id',this.ApplyController.getHelperResume);
 
     //지원한 헬퍼) 목록 조회하기
     router.get('/user/helperlist/:mem_id',this.ApplyController.getHelperListByMemId);
