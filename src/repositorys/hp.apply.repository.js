@@ -22,6 +22,18 @@ class HpApplyModel {
 
         return Row;
     }
+
+    // mem_id의 token가져오기
+    selectMemToken = async (conn, mem_id) => {
+        const selectMemTokenQuery = `
+            SELECT mem_token
+            FROM member
+            WHERE mem_id = ?
+        `;
+        const [Row] = await conn.query(selectMemTokenQuery, mem_id);
+
+        return Row;
+    }
     
     // 헬퍼 마이페이지) hp_idc에 이미 기본 자기소개서가 있는지 확인
     selectHpPreIdc = async (conn, hp_id) => {

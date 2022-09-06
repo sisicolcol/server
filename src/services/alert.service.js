@@ -13,12 +13,12 @@ class AlertService {
         this.AlertModel = new AlertModel();
     }
     
-    saveToken = async (mem_id) => {
+    saveToken = async (mem_token, mem_id) => {
         const connection = await pool.getConnection(async (connection)=>connection);
         try {
             await connection.beginTransaction();
 
-            const Result = await this.AlertModel.updateToken(connection, mem_id, mem_token);
+            const Result = await this.AlertModel.updateToken(connection, mem_token, mem_id);
 
             await connection.commit();
 

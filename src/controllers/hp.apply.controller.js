@@ -29,32 +29,36 @@ class HpApplyController {
 
     // 헬퍼 지원 완료하기 -> 알림 목록으로
     postHpApply = async(req,res)=>{
-
         const {apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point} = req.body;
 
         const Result = await this.HpApplyService.completeHpApply(
             apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point
         );
         
+        // mem_id의 token가져오기
+        const tokenResult = await this.HpApplyService.retrieveMemToken(
+            mem_id
+        );
+
         // 헬퍼에게 알림
         let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
-
+        let pushToken = tokenResult.result[0].mem_token;
         let messages = [];
-        for (let pushToken of somePushTokens) {
-            if (!Expo.isExpoPushToken(pushToken)) {
-                console.error(`Push token ${pushToken} is not a valid Expo push token`);
-                continue;
-            }
+        messages.push({
+            to: pushToken,
+            sound: 'default',
+            body: '활동지원사의 지원이 들어왔습니다.',
+            data: { withSome: 'data' },
+        });
 
-            messages.push({
-                to: pushToken,
-                sound: 'default',
-                body: 'This is a test notification',
-                data: { withSome: 'data' },
-            })
+        console.log("messages: ", messages);
+
+        if (!Expo.isExpoPushToken(pushToken)) {
+            console.error(`Push token ${pushToken} is not a valid Expo push token`);
         }
 
         let chunks = expo.chunkPushNotifications(messages);
+        console.log("chunks: ", chunks);
         let tickets = [];
         (async () => {
         for (let chunk of chunks) {

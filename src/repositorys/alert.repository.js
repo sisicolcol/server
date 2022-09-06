@@ -6,7 +6,8 @@ class AlertModel {
             SET mem_token = ?
             WHERE mem_id = ?
         `;
-        const [Row] = await conn.query(query, mem_token, mem_id);
+        const list = [mem_token, mem_id];
+        const [Row] = await conn.query(query, list);
         return Row;
     }
 }
