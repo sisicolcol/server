@@ -1,6 +1,6 @@
 # For Server
 
-## Package Structure
+### Package Structure
 
 ```
 📂 git@sisicolcol/server-js
@@ -19,7 +19,7 @@
 
 ```
 
-## API 로직
+### API 로직
 
 1. index.js(express) - 익스프레스가 띄운 서버로 접속
 2. routers/index.js - 도메인별 라우터로 분기
@@ -29,61 +29,46 @@
 6. respository/\*.repository.js - DB 접근 쿼리들의 집합, DataManager Layer
 7. DataBase
 
-## How to Run
+##### How to Run
 
 ```
 npm run start
-npm run dev
-
+개발시: npm run dev (nodemon)
 ```
 
 # For client
 
-before start
+##### before start
 
 ```
 
-npm install
-
+0. npm install (업데이트된 패키지 확인)
 1. .env.example이 있는 경로에 .env 파일을 생성합니다
 2. 노션 워크스페이스 백엔드 - .env 파일로 들어갑니다
 3. 노션에 있는 내용을 .env 파일에 복붙합니다
 4. npm run start
-
 ```
 
-how to start
+##### how to start
 
 ```
-
 npm run start
-
 ```
 
-default page
+##### default page
 
 ```
-
 http://localhost:3000
-
 ```
 
-generating api on swagger
+##### generating api on swagger
 
 ```
-cd src
-node .\swagger-generator.js
-
+npm run swagger
 ```
 
-api page
+##### api page
 
 ```
-
 http://localhost:3000/swagger/
-
-```
-
-```
-
 ```
