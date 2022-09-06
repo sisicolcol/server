@@ -196,6 +196,7 @@ class ApplyModel {
         const list = [apply_id,reason,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
+
     }  
 
     //신청목록) 메모 보기
@@ -221,6 +222,19 @@ class ApplyModel {
         const [Row] = await conn.query(query,list);
         return Row;
     }  
+
+    selectApplyInfo = async (conn, apply_id) => {
+        const ApplyInfoQuery = `
+            SELECT service_date as '서비스일시', start_point as '출발지', end_point as '목적지'
+            FROM apply
+            WHERE apply_id = ?
+        `;
+
+        const [Row] = await conn.query(ApplyInfoQuery, apply_id);
+
+        return Row;
+    }
+
 }
 
 module.exports = ApplyModel;
