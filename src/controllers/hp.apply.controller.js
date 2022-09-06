@@ -27,10 +27,11 @@ class HpApplyController {
 
     // 헬퍼 지원 완료하기 -> 알림 목록으로
     postHpApply = async(req,res)=>{
-        const {apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point} = req.body;
+
+        const {apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point} = req.body;
 
         const Result = await this.HpApplyService.completeHpApply(
-            apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point
+            apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point
         );
 
         return res.send(response(baseResponse.SUCCESS, Result));
