@@ -77,7 +77,7 @@ class HpApplyController {
         })();
 
         let message = messages[0].body;
-        console.log("message", message);
+        console.log("service alert message : ", message);
 
         // 알림 목록 저장
         const messageResult = await this.HpApplyService.saveMessageService(
