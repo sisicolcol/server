@@ -3,6 +3,7 @@
 ### Package Structure
 
 ```
+
 📂 git@sisicolcol/server-js
   ┣📂 src
     ┣📂 config # db 옵션
@@ -16,7 +17,7 @@
   ┣📂 swagger
   ┣ .env.example
   ┣ package.json
-
+  
 ```
 
 ### API 로직
@@ -29,7 +30,7 @@
 6. respository/\*.repository.js - DB 접근 쿼리들의 집합, DataManager Layer
 7. DataBase
 
-##### How to Run
+#### How to Run
 
 ```
 npm run start
@@ -38,10 +39,9 @@ npm run start
 
 # For client
 
-##### before start
+#### before start
 
 ```
-
 0. npm install (업데이트된 패키지 확인)
 1. .env.example이 있는 경로에 .env 파일을 생성합니다
 2. 노션 워크스페이스 백엔드 - .env 파일로 들어갑니다
@@ -49,19 +49,19 @@ npm run start
 4. npm run start
 ```
 
-##### how to start
+#### how to start
 
 ```
 npm run start
 ```
 
-##### default page
+#### default page
 
 ```
 http://localhost:3000
 ```
 
-##### generating api on swagger
+#### generating api on swagger
 
 ```
 npm run swagger

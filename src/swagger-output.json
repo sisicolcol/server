@@ -83,7 +83,9 @@
       "post": {
         "description": "",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          
+        }
       }
     },
     "/chat/list": {
@@ -94,7 +96,11 @@
           "name" : "me_mem_no",
           "description" : "사용자 식별자"
         }],
-        "responses": {}
+        "responses": {
+          "100" : {
+            "description" : "성공"
+          }
+        }
       }
     },
     "/chat": {
@@ -118,7 +124,11 @@
           "name" : "chat_room_no",
           "description" : "채팅방 식별자 식별자"
         }],
-        "responses": {}
+        "responses": {
+          "100" : {
+            "description" : "성공"
+          }
+        }
       },
       "post": {
         "description": "상대방에게 채팅 전송하기",
@@ -147,6 +157,9 @@
           "description" : "전송할 메시지"
         }],
         "responses": {
+          "100" : {
+            "description" : "성공"
+          }
         }
       }
     }
