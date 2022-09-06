@@ -13,7 +13,6 @@ const doc = {
 const outputFile = "./swagger-output.json";
 const endpointsFiles = [
   "./index.js",
-  "./routers/admin.router.js",
   "./routers/apply.router.js",
   "./routers/message.router.js",
 ];
