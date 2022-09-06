@@ -35,12 +35,12 @@ class HpApplyService {
     }
     
     // 헬퍼 지원 완료하기 -> 알림 목록으로
-    completeHpApply = async (apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point) => {
+    completeHpApply = async (apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point) => {
         const connection = await pool.getConnection(async (connection)=>connection);
         try {
             await connection.beginTransaction();
 
-            const Params = [apply_id, mem_id, hp_id, hp_idc_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point];
+            const Params = [apply_id, mem_id, hp_id, is_new, new_idc, apply_date, start_point, end_point];
             const Result = await this.HpApplyModel.insertHpApply(connection, Params);
 
             await connection.commit();
@@ -85,14 +85,33 @@ class HpApplyService {
         }
     }
 
-    // 헬퍼 마이페이지) 프로필 및 자기소개서 설정
-    settingHpProfile = async (hp_id, hp_name, hp_idc_id, content) => {
+    retrieveHpPreIdc = async(hp_id) => {
+        const connection = await pool.getConnection(async (connection)=>connection);
+        try {
+            await connection.beginTransaction();
+
+            const Result = await this.HpApplyModel.selectHpPreIdc(connection, hp_id);
+
+            await connection.commit();
+
+            console.log("Result Service : ", Result);
+
+            return response(baseResponse.SUCCESS,Result);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    firstHpPreIdc = async(content, hp_id) => {
         const connection = await pool.getConnection(async (connection)=>connection);
         try {
             await connection.beginTransaction();
             
-            const Params = [hp_id, content, mem_name, mem_id];
-            const Result = await this.HpApplyModel.insertHpProfile(connection, Params);
+            const Result = await this.HpApplyModel.insertHpPreIdc(connection, content, hp_id);
 
             await connection.commit();
 
@@ -106,6 +125,24 @@ class HpApplyService {
         }
     }
 
+    modifyHpPreIdc = async(content, hp_id) => {
+        const connection = await pool.getConnection(async (connection)=>connection);
+        try {
+            await connection.beginTransaction();
+            
+            const Result = await this.HpApplyModel.updateHpPreIdc(connection, content, hp_id);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 module.exports = HpApplyService;
