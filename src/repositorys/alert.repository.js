@@ -10,6 +10,18 @@ class AlertModel {
         const [Row] = await conn.query(query, list);
         return Row;
     }
+
+    // 알림 목록
+    selectAlertList = async (conn, mem_id) => {
+        const query = `
+            SELECT message
+            FROM service_alert
+            WHERE mem_id = ?
+        `;
+        const [Row] = await conn.query(query, mem_id);
+        return Row;
+    }
+    
 }
 
 module.exports = AlertModel;

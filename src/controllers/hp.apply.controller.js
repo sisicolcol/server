@@ -40,6 +40,14 @@ class HpApplyController {
             mem_id
         );
 
+        // 해당 서비스의 시간, 날짜 가져오기
+        const serviceResult = await this.HpApplyService.retrieveHpService(
+            apply_id
+        );
+
+        let service_time = serviceResult.result[0].service_time.slice(0,5).replace(":", "시 ");;
+        let service_date = serviceResult.result[0].service_date.toISOString().slice(5,10).replace("-", "월 ");
+
         // 헬퍼에게 알림
         let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
         let pushToken = tokenResult.result[0].mem_token;
@@ -47,30 +55,34 @@ class HpApplyController {
         messages.push({
             to: pushToken,
             sound: 'default',
-            body: '활동지원사의 지원이 들어왔습니다.',
+            body: `${service_date}일 ${service_time}분에 신청한 서비스에 활동지원사의 지원이 들어왔습니다.`,
             data: { withSome: 'data' },
         });
-
-        console.log("messages: ", messages);
 
         if (!Expo.isExpoPushToken(pushToken)) {
             console.error(`Push token ${pushToken} is not a valid Expo push token`);
         }
 
         let chunks = expo.chunkPushNotifications(messages);
-        console.log("chunks: ", chunks);
         let tickets = [];
         (async () => {
         for (let chunk of chunks) {
             try {
             let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-            console.log(ticketChunk);
             tickets.push(...ticketChunk);
             } catch (error) {
             console.error(error);
             }
         }
         })();
+
+        let message = messages[0].body;
+        console.log("message", message);
+
+        // 알림 목록 저장
+        const messageResult = await this.HpApplyService.saveMessageService(
+            mem_id, message
+        );
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }

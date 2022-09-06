@@ -22,6 +22,19 @@ class AlertController {
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
+
+    // 알림 목록
+    getAlertList = async (req,res)=>{
+        const mem_id = req.params.mem_id;
+
+        if(!mem_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } 
+
+        const Result = await this.AlertService.retrieveAlertList(mem_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
 }
 
 module.exports = AlertController;

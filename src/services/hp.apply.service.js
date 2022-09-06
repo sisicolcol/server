@@ -74,6 +74,48 @@ class HpApplyService {
             connection.release();
         }
     }
+    
+    // 알림 목록 저장
+    saveMessageService = async (mem_id, message) => {
+        const connection = await pool.getConnection(async (connection)=>connection);
+        try {
+            await connection.beginTransaction();
+
+            const Result = await this.HpApplyModel.insertAlertMsg(connection, mem_id, message);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    // 해당 서비스의 시간, 날짜 가져오기
+    retrieveHpService = async (apply_id) => {
+        const connection = await pool.getConnection(async (connection)=>connection);
+        try {
+            await connection.beginTransaction();
+
+            const Result = await this.HpApplyModel.selectMemService(connection, apply_id);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+
 
     // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
     retrieveHpApplyList = async (hp_id) => {

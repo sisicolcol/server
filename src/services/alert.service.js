@@ -31,6 +31,26 @@ class AlertService {
             connection.release();
         }
     }
+
+    // 알림 목록
+    retrieveAlertList = async (mem_id) => {
+        const connection = await pool.getConnection(async (connection)=>connection);
+        try {
+            await connection.beginTransaction();
+
+            const Result = await this.AlertModel.selectAlertList(connection, mem_id);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS,Result);
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 module.exports = AlertService;
