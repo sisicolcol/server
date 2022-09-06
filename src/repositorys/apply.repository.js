@@ -196,7 +196,32 @@ class ApplyModel {
         const list = [apply_id,reason,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
-    }
+
+    }  
+
+    //신청목록) 메모 보기
+    selectMemo = async (conn,apply_id,hp_id) => {
+        const query = `
+        select memo
+        from progress_list
+        where apply_id =? and hp_id = ?
+        `;
+        const list = [apply_id,hp_id];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
+
+    //신청 목록) 메모 수정하기
+    updateMemo = async (conn,memo,apply_id,hp_id) => {
+        const query = `
+        update progress_list
+        set memo = ?
+        where apply_id =? and hp_id = ?
+        `;
+        const list = [memo,apply_id,hp_id];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
 
     selectApplyInfo = async (conn, apply_id) => {
         const ApplyInfoQuery = `
@@ -209,6 +234,7 @@ class ApplyModel {
 
         return Row;
     }
+
 }
 
 module.exports = ApplyModel;

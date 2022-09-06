@@ -36,6 +36,12 @@ const applyRouter = (router)=>{
 
     //활동지원 서비스 완료
     router.post('/user/fail',this.ApplyController.failApply);
+
+    //신청목록) 메모 보기
+    router.get('/memo/:apply_id/:hp_id',this.ApplyController.memoCont);
+
+    //신청 목록) 메모 수정하기
+    router.post('/memo/:apply_id/:hp_id',this.ApplyController.memoUpCont);
     
 }
 
