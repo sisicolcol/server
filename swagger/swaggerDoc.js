@@ -13,7 +13,7 @@ const options = {
             },
         ]
     },
-    apis: ["./routers/*.js" ,"./controllers/*.js", "./swagger/swaggerDoc.js"],
+    apis: ["./router/*.js" ,"./controller/*.js", "./swagger/swaggerDoc.js"],
 };
 
 module.exports = options;

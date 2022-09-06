@@ -243,6 +243,48 @@ class ApplyService {
         } 
     }
 
+    //신청목록) 메모 보기
+    memoService = async (apply_id,hp_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.selectMemo(connection,apply_id,hp_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
+    //신청 목록) 메모 수정하기
+    memoUpdateService = async (memo,apply_id,hp_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+           await connection.beginTransaction();
+           
+           const Result = await this.ApplyModel.updateMemo(connection,memo,apply_id,hp_id);
+
+           await connection.commit();
+
+           return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+
 }
 
 module.exports = ApplyService;
