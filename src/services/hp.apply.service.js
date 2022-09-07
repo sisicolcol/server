@@ -64,8 +64,6 @@ class HpApplyService {
 
             await connection.commit();
 
-            console.log("Result Service : ", Result);
-
             return response(baseResponse.SUCCESS,Result);
         } catch (error) {
             console.log(error);
