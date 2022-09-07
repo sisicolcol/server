@@ -22,7 +22,44 @@ class HpApplyModel {
 
         return Row;
     }
+
+    // mem_id의 token가져오기
+    selectMemToken = async (conn, mem_id) => {
+        const selectMemTokenQuery = `
+            SELECT mem_token
+            FROM member
+            WHERE mem_id = ?
+        `;
+        const [Row] = await conn.query(selectMemTokenQuery, mem_id);
+
+        return Row;
+    }
     
+    // 해당 서비스의 시간, 날짜 가져오기
+    selectMemService = async (conn, apply_id) => {
+        const selectMemTokenQuery = `
+            SELECT service_time, service_date
+            FROM apply
+            WHERE apply_id = ?
+        `;
+        const [Row] = await conn.query(selectMemTokenQuery, apply_id);
+
+        return Row;
+    }
+
+    // 알림 목록 저장
+    insertAlertMsg = async (conn, mem_id, message) => {
+        const insertAlertMsgQuery = `
+            INSERT INTO service_alert(mem_id, message)
+            values(?,?)
+        `
+        const list = [mem_id, message];
+        const [Row] = await conn.query(insertAlertMsgQuery, list);
+
+        return Row;
+    
+    }
+
     // 헬퍼 마이페이지) hp_idc에 이미 기본 자기소개서가 있는지 확인
     selectHpPreIdc = async (conn, hp_id) => {
         const selectHpIdcQuery =  `

@@ -9,6 +9,7 @@ const adminRouter = require("./admin.router");
 const applyRouter = require('./apply.router');
 const hpApplyRouter = require('./hp.apply.router');
 const helperRouter = require('./helper.router');
+const alertRouter = require('./alert.router');
 
 module.exports = () => {
     
@@ -20,6 +21,7 @@ module.exports = () => {
     applyRouter(router);
     hpApplyRouter(router);
     helperRouter(router);
-
+    alertRouter(router);
+    
     return router;
 }
