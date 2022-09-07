@@ -37,37 +37,6 @@ class HpApplyController {
         return res.send(response(baseResponse.SUCCESS, Result));
     }
 
-    // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
-    getHpApplyList = async(req,res)=>{
-        const hp_id = req.params.hp_id;
-
-        if(!hp_id){
-            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
-        } else if (hp_id <= 0) {
-            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
-        }
-
-        const Result = await this.HpApplyService.retrieveHpApplyList(hp_id);
-
-        return res.send(response(baseResponse.SUCCESS, Result));
-    }
-
-    // 헬퍼 지원 목록) 공고 자세히 보기
-    getHpApplyDetail = async(req,res)=>{
-        const apply_id = req.params.apply_id;
-
-        if(!apply_id){
-            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
-        } else if (apply_id <= 0) {
-            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
-        }
-
-        const Result = await this.HpApplyService.retrieveHpApplyDetail(apply_id);
-
-        return res.send(response(baseResponse.SUCCESS, Result));
-
-    }
-
     // 헬퍼 마이페이지) 자기소개서 가져오기
     getHpPreIdc = async(req,res)=>{
         const hp_id = req.params.hp_id;

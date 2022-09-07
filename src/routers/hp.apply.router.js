@@ -10,12 +10,6 @@ const hpApplyRouter = (router)=>{
     // 헬퍼 지원 완료하기 -> 지원한 신청서의 시간까지 post
     router.post('/hp/apply',this.HpApplyController.postHpApply);
 
-    // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
-    router.get('/hp/applylist/:hp_id',this.HpApplyController.getHpApplyList);
-
-    // 헬퍼 지원 목록) 공고 자세히 보기
-    router.get('/hp/apply/detail/:apply_id',this.HpApplyController.getHpApplyDetail);
-
     // 헬퍼 마이페이지) 기존 자기소개서 가져오기
     router.get('/hp/preidc/:hp_id',this.HpApplyController.getHpPreIdc);
 
