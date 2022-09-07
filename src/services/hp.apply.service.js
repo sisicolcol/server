@@ -114,39 +114,7 @@ class HpApplyService {
             connection.release();
         }
     }
-
-
-
-    // 헬퍼 지원 목록) pg_id 내림차순 (업로드 순)
-    retrieveHpApplyList = async (hp_id) => {
-        const connection = await pool.getConnection(async (connection)=>connection);
-        try {
-            await connection.beginTransaction();
-            
-        } catch (error) {
-            console.log(error);
-            await connection.rollback();
-            return errResponse(baseResponse.DB_ERROR);
-        } finally {
-            connection.release();
-        }
-    }
-
-    // 헬퍼 지원 목록) 공고 자세히 보기
-    retrieveHpApplyDetail = async (apply_id) => {
-        const connection = await pool.getConnection(async (connection)=>connection);
-        try {
-            await connection.beginTransaction();
-            
-        } catch (error) {
-            console.log(error);
-            await connection.rollback();
-            return errResponse(baseResponse.DB_ERROR);
-        } finally {
-            connection.release();
-        }
-    }
-
+    
     retrieveHpPreIdc = async(hp_id) => {
         const connection = await pool.getConnection(async (connection)=>connection);
         try {
@@ -155,8 +123,6 @@ class HpApplyService {
             const Result = await this.HpApplyModel.selectHpPreIdc(connection, hp_id);
 
             await connection.commit();
-
-            console.log("Result Service : ", Result);
 
             return response(baseResponse.SUCCESS,Result);
         } catch (error) {

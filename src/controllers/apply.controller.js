@@ -51,7 +51,7 @@ class ApplyController {
 
     // 신청목록) 자세한 신청 내용 보기
     getApplyDetail = async (req,res)=>{
-        const apply_id = req.body.apply_id;
+        const apply_id = req.params.apply_id;
 
         if(!apply_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
@@ -66,7 +66,7 @@ class ApplyController {
 
     //신청 목록) 매칭 헬퍼 목록 조회하기
     getHelperList = async (req,res)=>{
-        const apply_id = req.body.apply_id;
+        const apply_id = req.params.apply_id;
 
         if(!apply_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
@@ -81,7 +81,7 @@ class ApplyController {
 
     //신청 목록) 매칭 헬퍼 이력서 조회하기
     getHelperResume = async (req,res)=>{
-        const hp_id = req.body.hp_id;
+        const hp_id = req.params.hp_id;
 
         if(!hp_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
@@ -149,6 +149,37 @@ class ApplyController {
         }
 
         const Result = await this.ApplyService.failService(apply_id,reason);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //신청목록) 메모 보기
+    memoCont = async (req,res)=>{
+        const apply_id = req.params.apply_id;
+        const hp_id = req.params.hp_id;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.memoService(apply_id,hp_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+
+    //신청 목록) 메모 수정하기
+    memoUpCont = async (req,res)=>{
+        const apply_id = req.params.apply_id;
+        const hp_id = req.params.hp_id;
+        const memo = req.body.memo;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.ApplyService.memoUpdateService(memo,apply_id,hp_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }

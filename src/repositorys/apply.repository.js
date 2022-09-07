@@ -1,3 +1,5 @@
+const { query } = require("express")
+
 class ApplyModel {
 
     //Test용
@@ -5,7 +7,7 @@ class ApplyModel {
         const query = `
         INSERT INTO progress_list(apply_id, mem_id, hp_id, hp_dic_id, is_new, new_idc, is_success, memo, apply_date, start_point, end_point)
             VALUES 
-            (24, "id3", "id7", "3", true, "3", 0, "memomemo", 2022-08-31, "서울역", "강남역");
+            (23, "id3", "id7", "3", true, "3", 0, "memomemo", "2022-08-31", "서울역", "강남역");
         `
 
         const query2 = `
@@ -17,18 +19,18 @@ class ApplyModel {
         `
 
         const query3 = `
-        INSERT INTO hp_idc(hp_id, content)
-        VALUES ("id7","자기소개서내용내용7");
+        INSERT INTO member(mem_id, password, mem_name, mem_phone, mem_gender,mem_cert,mem_type)
+        VALUES ("hp3","pass3","hpName3","01022221111","F","hpCertTest3",false);
         `
 
         const query4 = `
-        create table failed_list (
-            failed_list_id int primary key auto_increment,
-            apply_id INT,
-            reason text
-            );
+        INSERT INTO member(mem_id, password, mem_name, mem_phone, mem_gender,mem_card,mem_address,mem_type)
+        VALUES ("mem3","3pass","memName3","01022221111","M","memCard3","memAdd3",true);
         `
-        const result = await conn.query(query4);
+        const query5 = `
+        update apply set is_success=0;
+        `
+        const result = await conn.query(query5);
 
         return result;
 
@@ -44,8 +46,8 @@ class ApplyModel {
     // 시각장애인 활동지원 서비스 신청하기
     insertApply = async (conn, applyParams) => {
         const insertApplyQuery =   `
-            INSERT INTO apply(service_time,start_point,end_point,duration,way,service_date,contents,details,mem_id)
-            values(?,?,?,?,?,?,?,?,?)
+            INSERT INTO apply(service_time,start_point,end_point,duration,way,service_date,contents,details,mem_id,is_success)
+            values(?,?,?,?,?,?,?,?,?,0)
         `
         const [applyRow] = await conn.query(insertApplyQuery,applyParams);
 
@@ -78,15 +80,25 @@ class ApplyModel {
 
     // 신청 목록) 매칭 헬퍼 목록 조회하기
     selectHelperList = async (conn,apply_id) => {
-        const query = `
+        const q1 = `
             SELECT hp_id
             FROM progress_list
-            WHERE apply_id = ?
+            WHERE apply_id = ? and is_success=1
         `;
 
-        const [Row] = await conn.query(query,apply_id);
+        const q2 = `
+        select mem_name
+        from member
+        where mem_id = ?
+        `
+        const [hp_id] = await conn.query(q1,apply_id);
 
-        return Row;
+        for(let i=0;i<hp_id.length;i++){
+            let hp_name = await conn.query(q2,hp_id[i].hp_id);
+            hp_id[i].hp_name = hp_name[0][0].mem_name
+        }
+
+        return hp_id;
     }
 
     //신청 목록) 매칭 헬퍼 이력서 조회하기
@@ -109,7 +121,27 @@ class ApplyModel {
         FROM progress_list
         WHERE mem_id = ?
         `;
-        const [Row] = await conn.query(query,mem_id);
+
+        const q2 = `
+        select hp_id
+        from progress_list
+        where mem_id = ?
+        `;
+
+        const q3 = `
+        select mem_name
+        from member
+        where mem_id = ?
+        `;
+        let hp_id = await conn.query(q2,mem_id);
+        
+        let [Row] = await conn.query(query,mem_id);
+
+        for(let i =0;i<Row.length;i++){
+            let hp_name = await conn.query(q3,hp_id[0][i].hp_id);
+            hp_name = hp_name[0][0].mem_name
+            Row[i].hp_name = hp_name
+        }
         return Row;
     }
 
@@ -118,9 +150,22 @@ class ApplyModel {
         const query = `
         UPDATE progress_list
         SET is_success = ?
+        WHERE apply_id = ?;
+
+        update apply
+        set is_success = ?
+        where apply_id = ?
+        
+        `;
+        const query2 = `
+        SELECT apply_id
+        FROM progress_list
         WHERE pg_id = ?
         `;
-        const list = [is_success,pg_id];
+        let apply_id = await conn.query(query2,pg_id);
+        apply_id = apply_id[0][0].apply_id;
+        console.log(apply_id);
+        const list = [is_success,apply_id,is_success,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
@@ -151,7 +196,45 @@ class ApplyModel {
         const list = [apply_id,reason,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
+
     }  
+
+    //신청목록) 메모 보기
+    selectMemo = async (conn,apply_id,hp_id) => {
+        const query = `
+        select memo
+        from progress_list
+        where apply_id =? and hp_id = ?
+        `;
+        const list = [apply_id,hp_id];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
+
+    //신청 목록) 메모 수정하기
+    updateMemo = async (conn,memo,apply_id,hp_id) => {
+        const query = `
+        update progress_list
+        set memo = ?
+        where apply_id =? and hp_id = ?
+        `;
+        const list = [memo,apply_id,hp_id];
+        const [Row] = await conn.query(query,list);
+        return Row;
+    }  
+
+    selectApplyInfo = async (conn, apply_id) => {
+        const ApplyInfoQuery = `
+            SELECT service_date as '서비스일시', start_point as '출발지', end_point as '목적지'
+            FROM apply
+            WHERE apply_id = ?
+        `;
+
+        const [Row] = await conn.query(ApplyInfoQuery, apply_id);
+
+        return Row;
+    }
+
 }
 
 module.exports = ApplyModel;
