@@ -31,6 +31,37 @@ class HelperController {
 
         return res.send(Result);
     }
+
+    //나의 지원 목록) 메모 보기
+    memoCont = async (req,res)=>{
+        const apply_id = req.params.apply_id;
+        const hp_id = req.params.hp_id;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.HelperService.memoService(hp_id,apply_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }
+    
+    //나의 지원 목록) 메모 수정하기
+    memoUpCont = async (req,res)=>{
+        const apply_id = req.params.apply_id;
+        const hp_id = req.params.hp_id;
+        const memo = req.body.memo;
+        if(!apply_id){
+            return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
+        } else if (apply_id <= 0) {
+            return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
+        }
+
+        const Result = await this.HelperService.memoUpdateService(memo,hp_id,apply_id);
+
+        return res.send(response(baseResponse.SUCCESS, Result));
+    }    
 }
 
 module.exports = HelperController;
