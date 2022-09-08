@@ -76,6 +76,47 @@ class HelperService {
         }
     }
 
+    //나의 지원 목록) 메모 보기
+    memoService = async (hp_id,apply_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+            await connection.beginTransaction();
+            
+            const Result = await this.HelperRepository.selectMemo(connection,hp_id,apply_id);
+
+            await connection.commit();
+
+            return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
+    
+    //나의 지원 목록) 메모 수정하기
+    memoUpdateService = async (memo,hp_id,apply_id) => {
+        const connection = await pool.getConnection(async (connection)=> connection);
+        try {
+            await connection.beginTransaction();
+            
+            const Result = await this.HelperRepository.updateMemo(connection,memo,hp_id,apply_id);
+
+            await connection.commit();
+
+            return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+            
+        }finally {
+            connection.release();
+        } 
+    }
 }
 
 module.exports = HelperService;
