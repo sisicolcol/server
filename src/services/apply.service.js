@@ -65,7 +65,7 @@ class ApplyService {
             const applyResult = await this.ApplyModel.insertApply(connection,applyParams);
 
             await connection.commit();
-            return
+            return applyResult;
         } catch (error) {
             console.log(error);
             await connection.rollback();

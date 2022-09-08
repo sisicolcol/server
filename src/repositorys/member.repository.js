@@ -24,6 +24,26 @@ class MemberRepository {
         return result;
     }
 
+    //회원가입
+    insertMember = async (conn, memParams) => {
+        const query =`
+            insert into member(mem_id, password, mem_name, mem_phone, mem_gender, mem_card, mem_address,mem_type)
+            values(?,?,?,?,?,?,?,1);
+        `;
+        const query2 = `
+            insert into member(mem_id, password, mem_name, mem_phone, mem_gender, mem_cert,mem_type)
+            values(?,?,?,?,?,?,0);
+        `;
+        if(memParams.length == 7){
+            let [result] = await conn.query(query, memParams);
+            return result;
+        }else{
+            let [result] = await conn.query(query2, memParams);
+            return result;
+        }
+
+    }
+
 }
 
 module.exports = MemberRepository;
