@@ -8,6 +8,7 @@ const messageRouter = require("./message.router");
 const adminRouter = require("./admin.router");
 const applyRouter = require('./apply.router');
 const helperRouter = require('./helper.router');
+const memberRouter = require('./member.router');
 
 module.exports = () => {
     
@@ -18,6 +19,7 @@ module.exports = () => {
     adminRouter(router);
     applyRouter(router);
     helperRouter(router);
+    memberRouter(router);
 
     return router;
 }
