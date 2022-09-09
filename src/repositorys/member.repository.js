@@ -44,6 +44,17 @@ class MemberRepository {
 
     }
 
+    //로그인 확인
+    checkId = async (conn,mem_id,password) => {
+        const q = `
+        select mem_no from member
+        where mem_id =? and password=?;
+        `
+        const arr=[mem_id,password];
+        let [result] = await conn.query(q,arr);
+        return result;
+    }
+
 }
 
 module.exports = MemberRepository;
