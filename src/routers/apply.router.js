@@ -1,5 +1,5 @@
 const ApplyController = require('../controllers/apply.controller');
-
+const jwt_middleware = require('../middlewares/jwt.middleware');
 const applyRouter = (router)=>{
 
     this.ApplyController = new ApplyController();
@@ -8,7 +8,7 @@ const applyRouter = (router)=>{
     router.get('/test',this.ApplyController.makeP);
 
     // 시각장애인 지원 전체 정보 보기
-    router.get('/user/apply', this.ApplyController.getApplyList);
+    router.get('/user/apply',[jwt_middleware], this.ApplyController.getApplyList);
 
     // 시각장애인 활동지원 서비스 신청하기
     router.post('/user/apply',this.ApplyController.postApply);

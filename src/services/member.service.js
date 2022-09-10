@@ -32,6 +32,27 @@ class MemberService {
             connection.release();
         }
     }
+
+    //로그인 id 확인
+    checkIdService = async (mem_id,password)=>{
+        const connection = await pool.getConnection(async (connection)=>connection);
+
+        try {
+            await connection.beginTransaction();
+
+            const Result = await this.memberModel.checkId(connection,mem_id,password);
+
+            await connection.commit();
+            return Result;
+        } catch (error) {
+            console.log(error);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 module.exports = MemberService;
