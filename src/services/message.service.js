@@ -27,7 +27,32 @@ class ChatService {
     retrieveChatRooms = async (member_no) => { 
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
+            // 채팅방 조회 리스트
+            let checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
+
+            // 상대방 사용자 식별자 리스트 조회
+            let parnterIdxList = [];
+            for (let i = 0; i < checkList.length; i += 1) {
+                parnterIdxList.push(checkList[i].partner_mem_no);
+            }
+
+            // 사용자의 이름
+            const userName = await this.MemberRepository.selectMemberIdByIdx(connection, member_no);
+
+            // 상대방 이름을 가지고 와 리스트로 저장
+            let partnerNamesList=[];
+            for (let i = 0; i < checkList.length; i += 1) {
+                let name = await this.MemberRepository.selectMemberIdByIdx(connection, parnterIdxList[i]);
+                partnerNamesList.push(name[0].mem_id);
+            }
+
+            // 가져온 채팅방 리스트에 apply_id 생성
+            for (let i = 0; i < partnerNamesList.length; i += 1) {
+                let selectedApplyIdResult = await this
+                                                    .ApplyRepository
+                                                    .selectActiveApplyIdByUserNames(connection, userName[0].mem_id, partnerNamesList[i]);
+                checkList[i].apply_id = selectedApplyIdResult[0].apply_id;
+            }
 
             connection.release();
 
