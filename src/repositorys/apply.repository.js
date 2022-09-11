@@ -235,6 +235,18 @@ class ApplyModel {
         return Row;
     }
 
+    selectActiveApplyIdByUserNames = async (conn, member_id, partner_id) => {
+        const selectApplyIdQuery = `
+            SELECT apply_id
+            FROM progress_list
+            WHERE status = 1 and (mem_id = ? and hp_id = ?) or (mem_id = ? and hp_id = ?)
+        `;
+
+        const [resultRow] = await conn.query(selectApplyIdQuery, [member_id, partner_id, partner_id, member_id]);
+
+        return resultRow;
+    }
+
 }
 
 module.exports = ApplyModel;
