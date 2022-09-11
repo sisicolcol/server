@@ -8,10 +8,7 @@ const app = express();
 const Router = require('./routers/index.js');
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
-const options = require('../swagger/swaggerDoc');
-const swaggerSpec = swaggerJsDoc(options);
-const swaggerFile = require("./swagger-output");
+const swaggerFile = require("../swagger/swagger-output.json");
 
 const { SERVER_HOST, SERVER_PORT } = process.env;
 
