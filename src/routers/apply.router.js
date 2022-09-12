@@ -29,7 +29,7 @@ const applyRouter = (router)=>{
     router.get('/user/helperlist/:mem_id',this.ApplyController.getHelperListByMemId);
 
     //지원한 헬퍼) 수락하기/거절하기
-    router.post('/user/helper/accept' ,this.ApplyController.UpdateAccpet);
+    router.post('/user/helper/accept' , jwt_middleware, this.ApplyController.UpdateAccpet);
 
     //활동지원 서비스 완료
     router.post('/user/success', jwt_middleware, this.ApplyController.finishApply);
