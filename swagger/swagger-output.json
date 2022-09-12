@@ -6,11 +6,249 @@
     "version": "1.0.0"
   },
   "host": "localhost:3000",
-  "basePath": "/api",
+  "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
+    "/ping": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/user": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/user/{userIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/post": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/post/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/content/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/content/{commentIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/reportCode/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/reportCode/{commentIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/{postIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/{commentIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/reportCode/{postReportIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postReportIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/reportCode/{commentReportIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentReportIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/log/user": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/post": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/comment": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/report": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/alert": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/alertlist/{mem_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
     "/test": {
       "get": {
         "description": "",
@@ -21,8 +259,23 @@
     "/user/apply": {
       "get": {
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "post": {
         "description": "",
@@ -37,21 +290,21 @@
         "responses": {}
       }
     },
-    "/user/apply/detail": {
+    "/user/apply/detail/{apply_id}": {
       "get": {
         "description": "",
         "parameters": [],
         "responses": {}
       }
     },
-    "/user/helperlist": {
+    "/user/match/{apply_id}": {
       "get": {
         "description": "",
         "parameters": [],
         "responses": {}
       }
     },
-    "/user/helper/resume": {
+    "/user/resume/{hp_id}": {
       "get": {
         "description": "",
         "parameters": [],
@@ -83,9 +336,87 @@
       "post": {
         "description": "",
         "parameters": [],
-        "responses": {
-          
-        }
+        "responses": {}
+      }
+    },
+    "/memo/{apply_id}/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/apply/quick/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/apply/pre/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/helper/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp_memo/{hp_id}/{apply_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/apply/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/apply": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/preidc/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/preidc": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
       }
     },
     "/chat/list": {
