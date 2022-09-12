@@ -51,9 +51,13 @@ class ChatService {
                 let selectedApplyIdResult = await this
                                                     .ApplyRepository
                                                     .selectActiveApplyIdByUserNames(connection, userName[0].mem_id, partnerNamesList[i]);
-                checkList[i].apply_id = selectedApplyIdResult[0].apply_id;
+                if (selectedApplyIdResult[0] !== undefined) {
+                    checkList[i].apply_id = selectedApplyIdResult[0].apply_id
+                };
             }
+            
 
+            
             connection.release();
 
             return response(baseResponseStatus.SUCCESS, checkList);

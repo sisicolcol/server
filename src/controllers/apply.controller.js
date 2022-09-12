@@ -110,6 +110,9 @@ class ApplyController {
 
     // 지원한 헬퍼) 수락하기/거절하기
     UpdateAccpet = async (req,res)=>{
+        const mem_id_from_token = req.verifiedToken.idx;
+        const mem_id = mem_id_from_token;
+
         const is_success = req.body.is_success;
         const pg_id = req.body.pg_id;
         if(!pg_id){
@@ -118,22 +121,26 @@ class ApplyController {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.acceptService(is_success,pg_id);
+        const Result = await this.ApplyService.acceptService(is_success, pg_id, mem_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
 
     //활동지원 서비스 완료
     finishApply = async (req,res)=>{
-        const pg_id = req.body.pg_id;
+        const apply_id = req.body.apply_id;
         const overtime = req.body.overtime;
-        if(!pg_id){
+
+        const mem_id_from_token = req.verifiedToken.idx;
+        const mem_id = mem_id_from_token;
+
+        if(!apply_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
-        } else if (pg_id <= 0) {
+        } else if (apply_id <= 0) {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.finishService(pg_id,overtime);
+        const Result = await this.ApplyService.finishService(apply_id, overtime, mem_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }

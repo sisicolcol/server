@@ -2,10 +2,9 @@
     "name": "sisicolol",
     "main": "src/index.js",
     "scripts": {
-        "swagger" : "cd src node ./swagger-generator.js",
+        "swagger" : "node swagger/swagger-generator.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node src/index.js",
-        "start2": "node src/index.js",
         "dev": "nodemon src/index.js"
     },
     "dependencies": {

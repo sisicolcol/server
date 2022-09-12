@@ -1,4 +1,7 @@
 const ApplyModel = require("../repositorys/apply.repository");
+const RoomRepository = require("../repositorys/room.repository");
+const HpApplyModel = require("../repositorys/hp.apply.repository");
+const MemberModel = require("../repositorys/member.repository");
 
 const { pool } = require("../config/db");
 
@@ -11,6 +14,9 @@ class ApplyService {
 
     constructor(){
         this.ApplyModel = new ApplyModel();
+        this.RoomRepository = new RoomRepository();
+        this.HpApplyModel = new HpApplyModel();
+        this.MemberModel = new MemberModel();
     }
 
     //Test용
@@ -181,16 +187,26 @@ class ApplyService {
     }
 
     // 지원한 헬퍼) 수락하기/거절하기
-    acceptService = async (is_success,pg_id) => {
+    acceptService = async (is_success, pg_id, mem_id) => {
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
+        
            
-           const Result = await this.ApplyModel.updateHelper(connection,is_success,pg_id);
+           const apply_id = await this.ApplyModel.updateHelper(connection, is_success, pg_id);
+
+           const memberName = await this.MemberModel.selectMemberIdByIdx(connection, mem_id);
+
+           const hp_idx = await this.HpApplyModel.selectMatchingPartner(connection, apply_id, memberName[0].mem_id);
+
+           // 샤용자가 수락한 경우 채팅방 생성
+           if (is_success == 1) {
+                await this.RoomRepository.insertNewRoom(connection, apply_id, mem_id, hp_idx);
+           }
 
            await connection.commit();
 
-           return Result;
+            return (baseResponse.SUCCESS);
         } catch (error) {
             console.log(error);
             await connection.rollback();
@@ -202,12 +218,15 @@ class ApplyService {
     }
 
     //활동지원 서비스 완료
-    finishService = async (pg_id,overtime) => {
+    finishService = async (apply_id, overtime, mem_id) => {
+
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
            const Result = await this.ApplyModel.InsertFinishApply(connection,pg_id,overtime);
+
+           const updateResult = await this.RoomRepository.updateRoomStatus(connection, apply_id, mem_id);
 
            await connection.commit();
 
