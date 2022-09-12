@@ -30,7 +30,10 @@ class ApplyModel {
         const query5 = `
         update apply set is_success=0;
         `
-        const result = await conn.query(query5);
+        const query6 = `
+        alter table progress_list drop column memo;
+        `
+        const result = await conn.query(query6);
 
         return result;
 
@@ -81,9 +84,9 @@ class ApplyModel {
     // 신청 목록) 매칭 헬퍼 목록 조회하기
     selectHelperList = async (conn,apply_id) => {
         const q1 = `
-            SELECT hp_id
+            SELECT pg_id, hp_id, status
             FROM progress_list
-            WHERE apply_id = ? and is_success=1
+            WHERE apply_id = ?;
         `;
 
         const q2 = `
@@ -147,78 +150,121 @@ class ApplyModel {
 
     // 지원한 헬퍼) 수락하기/거절하기
     updateHelper = async (conn,is_success,pg_id) => {
-        const query = `
-        UPDATE progress_list
-        SET is_success = ?
-        WHERE apply_id = ?;
+        // const query = `
+        // UPDATE progress_list
+        // SET is_success = ?
+        // WHERE apply_id = ?;
 
-        update apply
-        set is_success = ?
-        where apply_id = ?
+        // update apply
+        // set is_success = ?
+        // where apply_id = ?;
+
+        // update progress_list
+        // set status = ?
+        // where pg_id=?;
         
+        // `;
+        const q = `
+            update progress_list
+            set is_success = ?
+            where pg_id = ?;
+
+            update progress_list
+            set status = ?
+            where pg_id = ?;
+        `
+        // const query2 = `
+        // SELECT apply_id
+        // FROM progress_list
+        // WHERE pg_id = ?
+        // `;
+        // let apply_id = await conn.query(query2,pg_id);
+        // apply_id = apply_id[0][0].apply_id;
+        // console.log(apply_id);
+        let status = 1;
+        if(is_success==-1){
+            status =2;
+        }
+        // const list = [is_success,apply_id,is_success,apply_id];
+        // const [Row] = await conn.query(query,list);
+
+        const list2 = [is_success,pg_id,status,pg_id];
+        const [Row2] = await conn.query(q,list2);
+        return Row2;
+    }  
+
+    //활동지원 서비스 완료
+    InsertFinishApply = async (conn,pg_id,overtime) => {
+        const query = `
+        INSERT INTO success_list(apply_id,overtime)
+        values(?,?); 
+        update progress_list
+        set status = 4
+        where pg_id=?;
+        update apply
+        set is_success = 1
+        where apply_id = ?;
         `;
-        const query2 = `
+        const findApplyId = `
         SELECT apply_id
         FROM progress_list
         WHERE pg_id = ?
         `;
-        let apply_id = await conn.query(query2,pg_id);
+        let apply_id = await conn.query(findApplyId,pg_id);
         apply_id = apply_id[0][0].apply_id;
-        console.log(apply_id);
-        const list = [is_success,apply_id,is_success,apply_id];
-        const [Row] = await conn.query(query,list);
-        return Row;
-    }  
 
-    //활동지원 서비스 완료
-    InsertFinishApply = async (conn,apply_id,overtime) => {
-        const query = `
-        INSERT INTO success_list(apply_id,overtime)
-        values(?,?); 
-        UPDATE progress_list
-        SET is_success = -1
-        WHERE apply_id = ?
-        `;
-        const list = [apply_id,overtime,apply_id];
+        const list = [apply_id,overtime,pg_id,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
 
     //활동지원 서비스 파투
-    insertFail = async (conn,apply_id,reason) => {
+    insertFail = async (conn,pg_id,reason) => {
         const query = `
         INSERT INTO failed_list(apply_id,reason)
         values(?,?); 
-        UPDATE progress_list
-        SET is_success = -1
-        WHERE apply_id = ?
+        update progress_list
+        set status = 3
+        where pg_id=?;
+        update apply
+        set is_success = 1
+        where apply_id = ?;
         `;
-        const list = [apply_id,reason,apply_id];
+
+        const findApplyId = `
+        SELECT apply_id
+        FROM progress_list
+        WHERE pg_id = ?
+        `;
+        let apply_id = await conn.query(findApplyId,pg_id);
+        apply_id = apply_id[0][0].apply_id;
+
+        const list = [apply_id,reason,pg_id,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
 
     }  
 
     //신청목록) 메모 보기
-    selectMemo = async (conn,apply_id,hp_id) => {
+    selectMemo = async (conn,apply_id) => {
         const query = `
         select memo
-        from progress_list
-        where apply_id =? and hp_id = ?
+        from apply
+        where apply_id = ?
         `;
-        const list = [apply_id,hp_id];
+        const list = [apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
 
     //신청 목록) 메모 수정하기
-    updateMemo = async (conn,memo,apply_id,hp_id) => {
+    updateMemo = async (conn,memo,apply_id) => {
         const query = `
-        update progress_list
+        update apply
         set memo = ?
-        where apply_id =? and hp_id = ?
+        where apply_id = ?
         `;
-        const list = [memo,apply_id,hp_id];
+        const list = [memo,apply_id];
         const [Row] = await conn.query(query,list);
         return Row;
     }  
