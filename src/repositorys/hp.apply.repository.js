@@ -23,6 +23,9 @@ class HpApplyModel {
         return Row;
     }
 
+
+
+
     // mem_id의 token가져오기
     selectMemToken = async (conn, mem_id) => {
         const selectMemTokenQuery = `
@@ -95,6 +98,19 @@ class HpApplyModel {
         const [Row] = await conn.query(updateHpPreIdcQuery, list);
 
         return Row;
+    }
+
+    // 헬퍼의 식별자 가져오기
+    selectMatchingPartner = async (conn, apply_id, mem_id ) => {
+        const selectQuery = `
+            SELECT hp_id
+            FROM progress_list
+            WHERE apply_id = ? and mem_id = ?
+        `;
+        
+        const [Result] =  await conn.query(selectQuery, [apply_id, mem_id]);
+
+        return Result;
     }
 }
 

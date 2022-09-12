@@ -149,7 +149,7 @@ class ApplyModel {
     updateHelper = async (conn,is_success,pg_id) => {
         const query = `
         UPDATE progress_list
-        SET is_success = ?
+        SET status = ?
         WHERE apply_id = ?;
 
         update apply
@@ -164,10 +164,10 @@ class ApplyModel {
         `;
         let apply_id = await conn.query(query2,pg_id);
         apply_id = apply_id[0][0].apply_id;
-        console.log(apply_id);
+        //console.log(apply_id);
         const list = [is_success,apply_id,is_success,apply_id];
         const [Row] = await conn.query(query,list);
-        return Row;
+        return apply_id;
     }  
 
     //활동지원 서비스 완료
