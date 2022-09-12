@@ -219,11 +219,12 @@ class ApplyService {
 
     //활동지원 서비스 완료
     finishService = async (apply_id, overtime, mem_id) => {
+
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
-           const Result = await this.ApplyModel.InsertFinishApply(connection,apply_id,overtime);
+           const Result = await this.ApplyModel.InsertFinishApply(connection,pg_id,overtime);
 
            const updateResult = await this.RoomRepository.updateRoomStatus(connection, apply_id, mem_id);
 
@@ -241,12 +242,12 @@ class ApplyService {
     }
 
     //활동지원 서비스 파투
-    failService = async (apply_id,reason) => {
+    failService = async (pg_id,reason) => {
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
-           const Result = await this.ApplyModel.insertFail(connection,apply_id,reason);
+           const Result = await this.ApplyModel.insertFail(connection,pg_id,reason);
 
            await connection.commit();
 
@@ -262,12 +263,12 @@ class ApplyService {
     }
 
     //신청목록) 메모 보기
-    memoService = async (apply_id,hp_id) => {
+    memoService = async (apply_id) => {
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
-           const Result = await this.ApplyModel.selectMemo(connection,apply_id,hp_id);
+           const Result = await this.ApplyModel.selectMemo(connection,apply_id);
 
            await connection.commit();
 
@@ -283,12 +284,12 @@ class ApplyService {
     }
 
     //신청 목록) 메모 수정하기
-    memoUpdateService = async (memo,apply_id,hp_id) => {
+    memoUpdateService = async (memo,apply_id) => {
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
-           const Result = await this.ApplyModel.updateMemo(connection,memo,apply_id,hp_id);
+           const Result = await this.ApplyModel.updateMemo(connection,memo,apply_id);
 
            await connection.commit();
 

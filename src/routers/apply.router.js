@@ -38,10 +38,10 @@ const applyRouter = (router)=>{
     router.post('/user/fail', jwt_middleware, this.ApplyController.failApply);
 
     //신청목록) 메모 보기
-    router.get('/memo/:apply_id/:hp_id',this.ApplyController.memoCont);
+    router.get('/memo/:apply_id',this.ApplyController.memoCont);
 
     //신청 목록) 메모 수정하기
-    router.post('/memo/:apply_id/:hp_id',this.ApplyController.memoUpCont);
+    router.post('/memo/:apply_id',this.ApplyController.memoUpCont);
     
 }
 

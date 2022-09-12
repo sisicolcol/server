@@ -145,17 +145,17 @@ class ApplyController {
         return res.send(response(baseResponse.SUCCESS, Result));
     }
 
-    //활동지원 서비스 완료
+    //활동지원 서비스 파투
     failApply = async (req,res)=>{
-        const apply_id = req.body.apply_id;
+        const pg_id = req.body.pg_id;
         const reason = req.body.reason;
-        if(!apply_id){
+        if(!pg_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
-        } else if (apply_id <= 0) {
+        } else if (pg_id <= 0) {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.failService(apply_id,reason);
+        const Result = await this.ApplyService.failService(pg_id,reason);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
@@ -163,14 +163,13 @@ class ApplyController {
     //신청목록) 메모 보기
     memoCont = async (req,res)=>{
         const apply_id = req.params.apply_id;
-        const hp_id = req.params.hp_id;
         if(!apply_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
         } else if (apply_id <= 0) {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.memoService(apply_id,hp_id);
+        const Result = await this.ApplyService.memoService(apply_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
@@ -178,7 +177,6 @@ class ApplyController {
     //신청 목록) 메모 수정하기
     memoUpCont = async (req,res)=>{
         const apply_id = req.params.apply_id;
-        const hp_id = req.params.hp_id;
         const memo = req.body.memo;
         if(!apply_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
@@ -186,7 +184,7 @@ class ApplyController {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.memoUpdateService(memo,apply_id,hp_id);
+        const Result = await this.ApplyService.memoUpdateService(memo,apply_id);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
