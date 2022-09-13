@@ -66,6 +66,16 @@ class MemberRepository {
         return result;
     }
 
+    selectMemberIdxById = async (conn, mem_id) => {
+        const selectQuery = `
+            SELECT mem_no
+            FROM member
+            WHERE mem_id = ?;
+        `;
+        const [result] = await conn.query(selectQuery, mem_id);
+
+        return result;   
+    }
 }
 
 module.exports = MemberRepository;

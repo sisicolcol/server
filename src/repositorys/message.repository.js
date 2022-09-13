@@ -16,7 +16,7 @@ class MessageRepository {
                     then CONCAT(TIMESTAMPDIFF(day, message.created_at, NOW()), '일')
                 else
                     timestampdiff(year , message.created_at, current_timestamp)
-            end as 전송시각
+            end as time
             FROM message
             INNER JOIN (
                 SELECT max(message_no) as last_message_no , chat_room_no, content, reciver_no, sender_no

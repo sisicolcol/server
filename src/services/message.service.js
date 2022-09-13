@@ -24,9 +24,15 @@ class ChatService {
     }
 
     // 채팅방 목록 가져오기
-    retrieveChatRooms = async (member_no) => { 
+    retrieveChatRooms = async (mem_id) => { 
         const connection = await pool.getConnection(async (connection) => connection);
         try {
+
+            const memberIdx = await this.MemberRepository.selectMemberIdxById(connection, mem_id);
+            
+            const member_no = memberIdx[0].mem_no;
+            console.log(memberIdx);
+
             // 채팅방 조회 리스트
             let checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
 

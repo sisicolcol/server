@@ -13,15 +13,15 @@ class MessageController {
     getMyChatRooms = async (req, res) =>  {
         
         // 임시로 사용자 인덱스 parameter로 받아오는걸로 받아둠..
-        const mem_no = req.query.mem_no;
+        const mem_id = req.query.mem_id;
 
-        if (!mem_no){
-            return res.send(errResponse(baseResponseStatus.USER_USERIDX_EMPTY));
-        } else if (mem_no < 1){
+        if (!mem_id){
+            return res.send(errResponse(baseResponseStatus.USER_USERID_EMPTY));
+        } else if (mem_id < 1){
             return res.send(errResponse(baseResponseStatus.USER_USERID_LENGTH));
         }
 
-        const retrieveChatList = await this.MessageService.retrieveChatRooms(mem_no);
+        const retrieveChatList = await this.MessageService.retrieveChatRooms(mem_id);
     
         return res.send(retrieveChatList);
     }
