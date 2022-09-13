@@ -97,14 +97,14 @@ class ChatService {
 
             return response(baseResponseStatus.SUCCESS, {
                 "chat_room_no" : checkList[0].chat_room_no, 
-                "대화 상대": partnerName[0].mem_name,
-                "서비스 주요 사항" : {
-                "서비스 일시" : `${month}월 ${day}일 ${time}`,
-                "출발지" : applyInfo[0].출발지,
-                "목적지" : applyInfo[0].목적지, 
+                "partner_no": partnerName[0].mem_name,
+                "info" : {
+                "date" : `${month}월 ${day}일 ${time}`,
+                "departure" : applyInfo[0].출발지,
+                "destination" : applyInfo[0].목적지, 
             },
-                "시작 메시지 ": introduce,
-                "채팅 목록" : userChats
+                "introduce ": introduce,
+                "chats" : userChats
             });
         } catch (err) {
             console.log(err);
