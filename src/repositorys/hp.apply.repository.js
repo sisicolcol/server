@@ -3,7 +3,7 @@ class HpApplyModel {
     // 헬퍼 퀵/사전 활동 지원 서비스) 지원하기 -기존 자기소개서 보기
     selectHpIdc = async (conn, hp_id) => {
         const selectHpIdcQuery = `
-            SELECT content
+            SELECT content, date
             FROM hp_idc
             WHERE hp_id = ?
         `;
@@ -22,9 +22,6 @@ class HpApplyModel {
 
         return Row;
     }
-
-
-
 
     // mem_id의 token가져오기
     selectMemToken = async (conn, mem_id) => {
@@ -77,9 +74,20 @@ class HpApplyModel {
 
     // 헬퍼 마이페이지) 기존 자기소개서 처음 작성
     insertHpPreIdc = async (conn, hp_id, content) => {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() +1;
+        let day =date.getDate();
+        if(month<10){
+            month = '0'+month
+        }
+        if(day<10){
+            day = '0'+day
+        }
+        let today = year + '-' + month+'-'+day;
         const insertHpPreIdcQuery =  `
-            INSERT INTO hp_idc(hp_id,content)
-            values(?,?)
+            INSERT INTO hp_idc(hp_id,content,date)
+            values(?,?,"${today}")
         `;
         const list = [content,hp_id];
         const [Row] = await conn.query(insertHpPreIdcQuery, list);
@@ -89,9 +97,20 @@ class HpApplyModel {
     
     // 헬퍼 마이페이지) 기존 자기소개서 수정
     updateHpPreIdc = async (conn, content, hp_id) => {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() +1;
+        let day =date.getDate();
+        if(month<10){
+            month = '0'+month
+        }
+        if(day<10){
+            day = '0'+day
+        }
+        let today = year + '-' + month+'-'+day;
         const updateHpPreIdcQuery =  `
             UPDATE hp_idc 
-            SET content = ? 
+            SET content = ?, date = "${today}"
             WHERE hp_id = ?
         `;
         const list = [content,hp_id];
