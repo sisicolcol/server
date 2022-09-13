@@ -19,9 +19,15 @@ class HelperRepository {
         let today = year + '-' + month+'-'+day;
 
         const Query = `
-        SELECT * FROM apply
-        WHERE service_date = "${today}"
-        `;
+        SELECT *, 
+            (   SELECT mem_name 
+                FROM member 
+                WHERE member.mem_id = apply.mem_id) AS "mem_name" 
+        FROM apply
+        WHERE service_date = "${today}";
+        `
+        ;
+
         const [Row] = await conn.query(Query);
 
         return Row;
@@ -42,9 +48,14 @@ class HelperRepository {
         let today = year + '-' + month+'-'+day;
 
         const Query = `
-        SELECT * FROM apply
+        SELECT *, 
+            (   SELECT mem_name 
+                FROM member 
+                WHERE member.mem_id = apply.mem_id) AS "mem_name" 
+        FROM apply
         WHERE service_date != "${today}"
         `;
+        
         const [Row] = await conn.query(Query);
 
         return Row;
