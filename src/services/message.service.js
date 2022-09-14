@@ -77,7 +77,7 @@ class ChatService {
             
             connection.release();
 
-            return response(baseResponseStatus.SUCCESS, { "mem_no" : member_no ,checkList });
+            return response(baseResponseStatus.SUCCESS, { mem_type: checkedUserType[0].mem_type, "mem_no" : member_no ,checkList });
         } catch (err) {
             console.log(err);
 
