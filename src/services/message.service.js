@@ -30,21 +30,31 @@ class ChatService {
 
             const memberIdx = await this.MemberRepository.selectMemberIdxById(connection, mem_id);
 
-            // 임시로 가져올 member_no
             let member_no;
-            if ( memberIdx[0] == undefined ) {
+            if ( memberIdx[0] !== undefined ) {
                 member_no = memberIdx[0].mem_no;
             }
 
             // 채팅방 조회 리스트
             let checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
 
-            // 상대방 사용자 식별자 리스트 조회
-            let parnterIdxList = [];
-            for (let i = 0; i < checkList.length; i += 1) {
-                parnterIdxList.push(checkList[i].partner_mem_no);
-            }
+            const checkedUserType = await this.MemberRepository.selectUserType(connection, member_no);
 
+            // 상대방 식별자 담아둘 곳
+            let parnterIdxList = [];
+            // 시각장애인 사용자일때
+            if (checkedUserType[0].mem_type == 0) {
+                for (let i = 0; i < checkList.length; i += 1) {
+                    parnterIdxList.push(checkList[i].helper_no);
+                }
+            }
+            // 헬퍼 사용자일때
+            if (checkedUserType[0].mem_type == 1)  {
+                for (let i = 0; i < checkList.length; i += 1) {
+                    parnterIdxList.push(checkList[i].blind_user_no);
+                }
+            }
+            console.log(parnterIdxList);
             // 사용자의 이름
             const userName = await this.MemberRepository.selectMemberIdByIdx(connection, member_no);
 

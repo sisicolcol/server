@@ -59,7 +59,7 @@ class MemberRepository {
         const selectQuery = `
             SELECT mem_id
             FROM member
-            WHERE mem_no = ?;
+            WHERE mem_no = '?';
         `;
         const [result] = await conn.query(selectQuery, mem_no);
 
@@ -71,6 +71,17 @@ class MemberRepository {
             SELECT mem_no
             FROM member
             WHERE mem_id = ?;
+        `;
+        const [result] = await conn.query(selectQuery, mem_id);
+
+        return result;   
+    }
+
+    selectUserType = async (conn, mem_id) => {
+        const selectQuery = `
+            SELECT mem_type
+            FROM member
+            WHERE mem_no = ?;
         `;
         const [result] = await conn.query(selectQuery, mem_id);
 
