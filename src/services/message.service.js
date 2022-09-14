@@ -32,7 +32,7 @@ class ChatService {
 
             // 임시로 가져올 member_no
             let member_no;
-            if ( memberIdx[0] !== undefined ) {
+            if ( memberIdx[0] == undefined ) {
                 member_no = memberIdx[0].mem_no;
             }
 
@@ -83,7 +83,7 @@ class ChatService {
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
 
             if (checkList[0] == undefined) {
-                
+                return errResponse(baseResponseStatus.CHAT_CHATROOM_EMPTY)
             }
 
             const partnerName = await this.MemberRepository.selectUserNameByIndex(connection, partner_mem_no);
