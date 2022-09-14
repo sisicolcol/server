@@ -29,9 +29,12 @@ class ChatService {
         try {
 
             const memberIdx = await this.MemberRepository.selectMemberIdxById(connection, mem_id);
-            
-            const member_no = memberIdx[0].mem_no;
-            console.log(memberIdx);
+
+            // 임시로 가져올 member_no
+            let member_no;
+            if ( memberIdx[0] !== undefined ) {
+                member_no = memberIdx[0].mem_no;
+            }
 
             // 채팅방 조회 리스트
             let checkList = await this.MessageRepository.selectUserChatRooms(connection, member_no);
@@ -62,11 +65,9 @@ class ChatService {
                 };
             }
             
-
-            
             connection.release();
 
-            return response(baseResponseStatus.SUCCESS, checkList);
+            return response(baseResponseStatus.SUCCESS, { "mem_no" : member_no ,checkList });
         } catch (err) {
             console.log(err);
 
@@ -78,8 +79,13 @@ class ChatService {
     retrieveUserChats = async (mem_no, partner_mem_no, apply_id) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-
+            console.log(mem_no, partner_mem_no);
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
+
+            if (checkList[0] == undefined) {
+                
+            }
+
             const partnerName = await this.MemberRepository.selectUserNameByIndex(connection, partner_mem_no);
             const userType = await this.MemberRepository.selectUserTypeByIndex(connection, mem_no);
             const applyInfo = await this.ApplyRepository.selectApplyInfo(connection, apply_id);
@@ -93,7 +99,7 @@ class ChatService {
             let introduce = ``;
 
             // 헬퍼 사용자일 경우 추가
-            if (userType[0].mem_type == 0) introduce += `${partnerName[0].mem_name} 님께서 헬퍼님의 활동지원 서비스를 승인하셨습니다. 아래 버튼을 눌러서 자세한 서비스 내용을 확인해보세요`;
+            if (userType[0].mem_type == 0) introduce += `${partnerName[0].mem_name}님께서 헬퍼님의 활동지원 서비스를 승인하셨습니다. 아래 버튼을 눌러서 자세한 서비스 내용을 확인해보세요`;
             // 시각장애인 사용자일 경우 추가
             if (userType[0].mem_type == 1) introduce += `${month}월 ${day}일 ${time}에 신청한 활동지원서비스에 대해 매칭된 헬퍼입니다. 시시콜콜은 서비스 신청 이후 사용자간 소통으로 변경된 사항에 대해서 책임을 지지 않습니다. 사전에 약속된 내용을 엄수해주시길 바랍니다.`;
             
@@ -109,7 +115,7 @@ class ChatService {
                 "departure" : applyInfo[0].출발지,
                 "destination" : applyInfo[0].목적지, 
             },
-                "introduce ": introduce,
+                "introduce": introduce,
                 "chats" : userChats
             });
         } catch (err) {
