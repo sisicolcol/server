@@ -93,7 +93,7 @@ class ChatService {
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
 
             if (checkList[0] == undefined) {
-                return errResponse(baseResponseStatus.CHAT_CHATROOM_EMPTY)
+                return errResponse(baseResponseStatus.CHAT_CHATROOM_EMPTY);
             }
 
             const partnerName = await this.MemberRepository.selectUserNameByIndex(connection, partner_mem_no);

@@ -214,8 +214,8 @@ class ApplyService {
 
                 const insertResult = await this.ChatroomRepository
                                                 .insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no, blind_user_no[0].mem_no);
-                                                
-                await this.MessageRepository.insertUserChat(connection, insertResult.insertId, member_no[0].mem_no , blind_user_no[0].mem_no, '채팅방이 생성되었습니다' );
+
+                await this.MessageRepository.insertUserChat(connection, insertResult.insertId, member_no[0].mem_no , blind_user_no[0].mem_no, '채팅이 시작되었습니다' );
            }
 
            await connection.commit();
@@ -233,7 +233,7 @@ class ApplyService {
     }
 
     //활동지원 서비스 완료
-    finishService = async (apply_id, overtime, ) => {
+    finishService = async ( pg_id, overtime ) => {
 
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
