@@ -126,16 +126,15 @@ class ApplyController {
 
     //활동지원 서비스 완료
     finishApply = async (req,res)=>{
-        const apply_id = req.body.apply_id;
+        const pg_id = req.body.pg_id;
         const overtime = req.body.overtime;
-
-        if(!apply_id){
+        if(!pg_id){
             return res.send(errResponse(baseResponse.POST_POSTIDX_EMPTY));
-        } else if (apply_id <= 0) {
+        } else if (pg_id <= 0) {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.finishService(apply_id, overtime);
+        const Result = await this.ApplyService.finishService(pg_id,overtime);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }
