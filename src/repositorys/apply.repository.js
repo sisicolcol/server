@@ -150,27 +150,36 @@ class ApplyModel {
 
     // 지원한 헬퍼) 수락하기/거절하기
     updateHelper = async (conn,is_success,pg_id) => {
-        const query = `
-        UPDATE progress_list
-        SET status = ?
-        WHERE apply_id = ?;
-
+        const yes_q =`
+        update progress_list
+        set status=1
+        where pg_id =?;
         update apply
-        set is_success = ?
-        where apply_id = ?
-        
+        set is_success=1
+        where apply_id=?;
         `;
-        const query2 = `
-        SELECT apply_id
-        FROM progress_list
-        WHERE pg_id = ?
+        const no_q = `
+        update progress_list
+        set status=2
+        where pg_id=?;
         `;
-        let apply_id = await conn.query(query2,pg_id);
+        const findApplyId = `
+            SELECT apply_id
+            FROM progress_list
+            WHERE pg_id = ?
+        `;
+        let apply_id = await conn.query(findApplyId,pg_id);
         apply_id = apply_id[0][0].apply_id;
-        //console.log(apply_id);
-        const list = [is_success,apply_id,is_success,apply_id];
-        const [Row] = await conn.query(query,list);
-        return apply_id;
+
+        if(is_success==1){
+            const list = [pg_id,apply_id];
+            const [Row] = await conn.query(yes_q,list);
+            return Row;
+        }else{
+            const list = [pg_id];
+            const [Row] = await conn.query(no_q,list);
+            return Row;
+        }
     }  
 
     //활동지원 서비스 완료
