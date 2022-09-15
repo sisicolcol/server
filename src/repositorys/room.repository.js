@@ -18,7 +18,7 @@ class ChatroomRepository {
             INSERT INTO chat_room(apply_id, blind_user_no, helper_no)
             VALUES(?,?,?);
         `;
-        const [insertResult] = await conn.query(insertQuery, [apply_id, mem_no, partner_mem_no]);
+        const [insertResult] = await conn.query(insertQuery, [apply_id, mem_no, partner_mem_no] );
 
         return insertResult;
     }
@@ -33,6 +33,7 @@ class ChatroomRepository {
 
         return Result;
     }
+    
 }
 
 module.exports = ChatroomRepository;

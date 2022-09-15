@@ -2,7 +2,9 @@ const ApplyModel = require("../repositorys/apply.repository");
 const RoomRepository = require("../repositorys/room.repository");
 const HpApplyModel = require("../repositorys/hp.apply.repository");
 const MemberModel = require("../repositorys/member.repository");
-
+const ProgressListRepository = require('../repositorys/progressList.repository');
+const MessageRepository = require('../repositorys/message.repository');
+const ChatroomRepository = require('../repositorys/room.repository');
 const { pool } = require("../config/db");
 
 const baseResponse = require('../utilities/baseResponseStatus')
@@ -11,12 +13,16 @@ const { errResponse, response } = require('../utilities/response');
 class ApplyService {
 
     ApplyModel;
+    ProgressListRepository;
 
     constructor(){
         this.ApplyModel = new ApplyModel();
         this.RoomRepository = new RoomRepository();
         this.HpApplyModel = new HpApplyModel();
         this.MemberModel = new MemberModel();
+        this.ProgressListRepository = new ProgressListRepository();
+        this.MessageRepository = new MessageRepository();
+        this.ChatroomRepository = new ChatroomRepository();
     }
 
     //Test용
@@ -187,21 +193,29 @@ class ApplyService {
     }
 
     // 지원한 헬퍼) 수락하기/거절하기
-    acceptService = async (is_success, pg_id, mem_id) => {
+    acceptService = async (is_success, pg_id) => {
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
         
-           
-           const apply_id = await this.ApplyModel.updateHelper(connection, is_success, pg_id);
+           const result = await this.ApplyModel.updateHelper(connection, is_success, pg_id);
 
-           const memberName = await this.MemberModel.selectMemberIdByIdx(connection, mem_id);
 
-           const hp_idx = await this.HpApplyModel.selectMatchingPartner(connection, apply_id, memberName[0].mem_id);
+           // 이준희 추가
+           const progressListInfo = await this.ProgressListRepository.selectMemberNamesByPgId(connection, pg_id);
+
+           // 사용자들 식별자 추가
+           const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
+           const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);           
 
            // 샤용자가 수락한 경우 채팅방 생성
            if (is_success == 1) {
-                await this.RoomRepository.insertNewRoom(connection, apply_id, mem_id, hp_idx);
+                await this.RoomRepository.insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no , blind_user_no[0].mem_no);
+
+                const insertResult = await this.ChatroomRepository
+                                                .insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no, blind_user_no[0].mem_no);
+                                                
+                await this.MessageRepository.insertUserChat(connection, insertResult.insertId, member_no[0].mem_no , blind_user_no[0].mem_no, '채팅방이 생성되었습니다' );
            }
 
            await connection.commit();
@@ -210,23 +224,22 @@ class ApplyService {
         } catch (error) {
             console.log(error);
             await connection.rollback();
+
             return errResponse(baseResponse.DB_ERROR);
-            
+
         }finally {
             connection.release();
         } 
     }
 
     //활동지원 서비스 완료
-    finishService = async (apply_id, overtime, mem_id) => {
+    finishService = async (apply_id, overtime, ) => {
 
         const connection = await pool.getConnection(async (connection)=> connection);
         try {
            await connection.beginTransaction();
            
-           const Result = await this.ApplyModel.InsertFinishApply(connection,pg_id,overtime);
-
-           const updateResult = await this.RoomRepository.updateRoomStatus(connection, apply_id, mem_id);
+           const Result = await this.ApplyModel.InsertFinishApply(connection, pg_id, overtime);
 
            await connection.commit();
 

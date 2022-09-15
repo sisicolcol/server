@@ -29,13 +29,13 @@ const applyRouter = (router)=>{
     router.get('/user/helperlist/:mem_id',this.ApplyController.getHelperListByMemId);
 
     //지원한 헬퍼) 수락하기/거절하기
-    router.post('/user/helper/accept' , jwt_middleware, this.ApplyController.UpdateAccpet);
+    router.post('/user/helper/accept', this.ApplyController.UpdateAccpet);
 
     //활동지원 서비스 완료
-    router.post('/user/success', jwt_middleware, this.ApplyController.finishApply);
+    router.post('/user/success', this.ApplyController.finishApply);
 
     //활동지원 서비스 완료
-    router.post('/user/fail', jwt_middleware, this.ApplyController.failApply);
+    router.post('/user/fail', this.ApplyController.failApply);
 
     //신청목록) 메모 보기
     router.get('/memo/:apply_id',this.ApplyController.memoCont);
