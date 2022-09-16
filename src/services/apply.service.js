@@ -208,7 +208,7 @@ class ApplyService {
            const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
            const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);           
 
-           // 샤용자가 수락한 경우 채팅방 생성
+           // 샤용자가 수락한 경우에만 채팅방 생성
            if (is_success == 1) {
                 await this.RoomRepository.insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no , blind_user_no[0].mem_no);
 

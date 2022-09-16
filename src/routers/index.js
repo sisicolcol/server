@@ -5,7 +5,6 @@ const router = express.Router();
 // const commentRouter = require('./comment.router');
 // const userRouter = require("./user.router");
 const messageRouter = require("./message.router");
-const adminRouter = require("./admin.router");
 const applyRouter = require('./apply.router');
 const hpApplyRouter = require('./hp.apply.router');
 const helperRouter = require('./helper.router');
@@ -19,7 +18,6 @@ module.exports = () => {
     // userRouter(router);
     // commentRouter(router);
     messageRouter(router);
-    adminRouter(router);
     applyRouter(router);
     hpApplyRouter(router);
     helperRouter(router);
