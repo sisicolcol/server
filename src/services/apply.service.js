@@ -208,16 +208,6 @@ class ApplyService {
            const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
            const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);           
 
-           // 샤용자가 수락한 경우에만 채팅방 생성
-           if (is_success == 1) {
-                await this.RoomRepository.insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no , blind_user_no[0].mem_no);
-
-                const insertResult = await this.ChatroomRepository
-                                                .insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no, blind_user_no[0].mem_no);
-
-                await this.MessageRepository.insertUserChat(connection, insertResult.insertId, member_no[0].mem_no , blind_user_no[0].mem_no, '채팅이 시작되었습니다' );
-           }
-
            await connection.commit();
 
             return (baseResponse.SUCCESS);
