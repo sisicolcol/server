@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 const { response, errResponse } = require('../utilities/response');
-const userService = require('../services/user.service');
 const baseResponse = require('../utilities/baseResponseStatus');
 
 const jwtMiddleware = (req, res, next) => {
@@ -38,19 +37,19 @@ const jwtMiddleware = (req, res, next) => {
     p.then( async (verifiedToken) => {
         // 비번 변경시 추가할 곳
         // DB에서 jwt 토큰 유무 검사(로그인 시 생성하며, 로그아웃 시 제거할 것)
-        const loginCheckbyToken = await userService.checkValidAccess(verifiedToken.userIdx);
+        // const loginCheckbyToken = await userService.checkValidAccess(verifiedToken.userIdx);
 
         // 로그아웃/회원탈퇴한 유저에 대해 접근하려는 경우
-        if(loginCheckbyToken == null){
-            return res.send(errResponse(baseResponse.TOKEN_WRONG_ACCESS));
-        }
-        // 현재 로그인되어있는 유저의 이전 로그인 jwt로 접근하려는 경우
-        else if(loginCheckbyToken != token) {
-            return res.send(errResponse(baseResponse.TOKEN_VERIFICATION_FAILURE));
-        }
-        else
-            req.verifiedToken = verifiedToken;
-            next();
+        // if(loginCheckbyToken == null){
+        //     return res.send(errResponse(baseResponse.TOKEN_WRONG_ACCESS));
+        // }
+        // // 현재 로그인되어있는 유저의 이전 로그인 jwt로 접근하려는 경우
+        // else if(loginCheckbyToken != token) {
+        //     return res.send(errResponse(baseResponse.TOKEN_VERIFICATION_FAILURE));
+        // }
+        // else
+        req.verifiedToken = verifiedToken;
+        next();
     }).catch(onError);
 };
 

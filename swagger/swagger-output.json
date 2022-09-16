@@ -1,0 +1,498 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "시시콜콜 API",
+    "description": "시시콜콜 Swagger API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/user": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/user/{userIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/post": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/post/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/content/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/content/{commentIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/reportCode/{postIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/reportCode/{commentIdx}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/{postIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/{commentIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/post/reportCode/{postReportIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "postReportIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/report/comment/reportCode/{commentReportIdx}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentReportIdx",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/admin/log/user": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/post": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/comment": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/admin/log/report": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/alert": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/alertlist/{mem_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/test": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/apply": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/applylist/{mem_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/apply/detail/{apply_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/match/{apply_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/resume/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/helperlist/{mem_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/helper/accept": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/success": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/fail": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/memo/{apply_id}/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/apply/quick/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/apply/pre/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/helper/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp_memo/{hp_id}/{apply_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/apply/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/apply": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/preidc/{hp_id}": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/hp/preidc": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/chat/list": {
+      "get": {
+        "description": "사용자의 채팅방 목록 가져오기",
+        "parameters": [{
+          "in" : "query",
+          "name" : "me_mem_no",
+          "description" : "사용자 식별자"
+        }],
+        "responses": {
+          "100" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/chat": {
+      "get": {
+        "description": "상대방과의 채팅 목록 가져오기",
+        "parameters": [{
+          "in" : "query",
+          "type" : "int",
+          "name" : "me_mem_no",
+          "description" : "사용자 식별자"
+        },
+        {
+          "in" : "query",
+          "type" : "int",
+          "name" : "parnter_mem_no",
+          "description" : "대화 상대 식별자"
+        },
+        {
+          "in" : "query",
+          "type" : "int",
+          "name" : "chat_room_no",
+          "description" : "채팅방 식별자 식별자"
+        }],
+        "responses": {
+          "100" : {
+            "description" : "성공"
+          }
+        }
+      },
+      "post": {
+        "description": "상대방에게 채팅 전송하기",
+        "parameters": [{
+          "in" : "query",
+          "type" : "int",
+          "name" : "me_mem_no",
+          "description" : "사용자 식별자"
+        },
+        {
+          "in" : "query",
+          "type" : "int",
+          "name" : "parnter_mem_no",
+          "description" : "대화 상대 식별자"
+        },
+        {
+          "in" : "query",
+          "type" : "int",
+          "name" : "chat_room_no",
+          "description" : "채팅방 식별자"
+        },
+        {
+          "in" : "body",
+          "type" : "string",
+          "name" : "content",
+          "description" : "전송할 메시지"
+        }],
+        "responses": {
+          "100" : {
+            "description" : "성공"
+          }
+        }
+      }
+    }
+  }
+}

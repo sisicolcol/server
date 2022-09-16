@@ -11,6 +11,8 @@ module.exports = {
 
 
     //Request error
+
+
     
     SIGNIN_ERROR : {"isSuccess": false, "code": 199, "message": "회원가입을 해주세요"},
     SIGNIN_PASSWORD_TYPE : { "isSuccess": false, "code": 201, "message":"소셜 로그인 유저입니다" },
@@ -29,6 +31,9 @@ module.exports = {
     SIGNIN_PASSWORD_EMPTY : { "isSuccess": false, "code": 221, "message": "비밀번호를 입력 해주세요." },
     SIGNIN_PASSWORD_LENGTH : { "isSuccess": false, "code": 222, "message":"비밀번호는 6~20자리를 입력해주세요." },
     SIGNIN_PASSWORD_REGEX : { "isSuccess": false, "code": 223, "message":"비밀번호는 특수문자를 포함해야 합니다." },
+
+    CHAT_CHATROOM_EMPTY : { "isSuccess": false, "code": 223, "message":"두 사용자간의 채팅방이 존재하지 않아요" },
+    CHAT_CHATROOM_LENGTH : { "isSuccess": false, "code": 223, "message":"채팅방 식별자 크기를 확인해주세요." },
 
     USER_USERID_EMPTY : { "isSuccess": false, "code": 224, "message": "userId를 입력해주세요." },
     USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 225, "message": "해당 회원이 존재하지 않습니다." },
