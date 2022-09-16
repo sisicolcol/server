@@ -4,7 +4,7 @@ class MessageRepository {
 
     selectUserChatRooms = async (connection, mem_no) => {
         const selectQuery =`
-            SELECT message.content, user1.mem_name as 'blind_user_name',user2.mem_name as 'helper_name', user1.mem_no as 'blind_user_no', user2.mem_no as 'helper_no', message.chat_room_no,
+            SELECT message.content, user1.mem_name as 'blind_user_name', user2.mem_name as 'helper_name', user1.mem_no as 'blind_user_no', user2.mem_no as 'helper_no', message.chat_room_no,
             case
                 when timestampdiff(second, message.created_at, current_timestamp) < 60
                     then CONCAT(TIMESTAMPDIFF(second, message.created_at , NOW()), '초')
@@ -21,7 +21,7 @@ class MessageRepository {
             INNER JOIN (
                 SELECT max(message_no) as last_message_no , chat_room_no, content, reciver_no, sender_no
                 from message
-                where sender_no = ? or reciver_no = ?
+                where sender_no = ? or reciver_no = ? and status = 0
                 GROUP BY chat_room_no
             ) last_message
             on last_message.chat_room_no = message.chat_room_no
@@ -52,6 +52,17 @@ class MessageRepository {
             values(?,?,?,?)
         `;
         const [result] = await conn.query(insertChatQuery, [chat_room_no, me_mem_no, partner_mem_no, content]);
+
+        return result;
+    }
+
+    updateMessageStatus = async (conn, mem_mem_no, partner_mem_no) => {
+        const updateQuery = `
+            UPDATE message
+            set status = 1
+            WHERE (sender_no = ? and partner_mem_no = ?) or (partner_mem_no = ? and sender_no = ?)
+        ;`;
+        const [ result ] = await conn.query(updateQuery, [mem_mem_no, partner_mem_no, partner_mem_no, mem_mem_no])
 
         return result;
     }

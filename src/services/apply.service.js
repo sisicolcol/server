@@ -199,14 +199,22 @@ class ApplyService {
            await connection.beginTransaction();
         
            const result = await this.ApplyModel.updateHelper(connection, is_success, pg_id);
+           console.log(result);
 
+           // 수락했다면
+           if (is_success == 1) {
 
-           // 이준희 추가
+            // 리스트 정보
            const progressListInfo = await this.ProgressListRepository.selectMemberNamesByPgId(connection, pg_id);
 
            // 사용자들 식별자 추가
            const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
-           const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);           
+           const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);
+           
+            // 새로운 채팅방 만들기
+            await this.RoomRepository
+                      .insertNewRoom(connection, progressListInfo[0].apply_id, member_no[0].mem_no, blind_user_no[0].mem_no);
+           }
 
            await connection.commit();
 
@@ -231,6 +239,19 @@ class ApplyService {
            
            const Result = await this.ApplyModel.InsertFinishApply(connection, pg_id, overtime);
 
+           // 이준희 추가
+           const progressListInfo = await this.ProgressListRepository.selectMemberNamesByPgId(connection, pg_id);
+
+           // 사용자들 식별자
+           const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
+           const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);
+           
+           // 채팅방 날리기
+           await this.RoomRepository.updateRoomStatus(connection, progressListInfo[0].apply_id, blind_user_no[0].mem_no);
+
+           // 주고받은 메시지 삭제
+            await this.MessageRepository.updateMessageStatus(connection, member_no[0].mem_no, blind_user_no[0].mem_no);
+
            await connection.commit();
 
            return Result;
@@ -251,6 +272,19 @@ class ApplyService {
            await connection.beginTransaction();
            
            const Result = await this.ApplyModel.insertFail(connection,pg_id,reason);
+
+            // 이준희 추가
+           const progressListInfo = await this.ProgressListRepository.selectMemberNamesByPgId(connection, pg_id);
+
+           // 사용자들 식별자
+           const member_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].mem_id);
+           const blind_user_no = await this.MemberModel.selectMemberIdxById(connection, progressListInfo[0].hp_id);
+           
+           // 채팅방 날리기
+           await this.RoomRepository.updateRoomStatus(connection, progressListInfo[0].apply_id, blind_user_no[0].mem_no);
+
+           // 주고받은 메시지 삭제
+            await this.MessageRepository.updateMessageStatus(connection, member_no[0].mem_no, blind_user_no[0].mem_no);
 
            await connection.commit();
 

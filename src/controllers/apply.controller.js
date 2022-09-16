@@ -134,7 +134,7 @@ class ApplyController {
             return res.send(errResponse(baseResponse.POST_POSTIDX_LENGTH));
         }
 
-        const Result = await this.ApplyService.finishService(pg_id,overtime);
+        const Result = await this.ApplyService.finishService(pg_id, overtime);
 
         return res.send(response(baseResponse.SUCCESS, Result));
     }

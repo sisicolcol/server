@@ -89,7 +89,7 @@ class ChatService {
     retrieveUserChats = async (mem_no, partner_mem_no, apply_id) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            console.log(mem_no, partner_mem_no);
+
             const checkList = await this.ChatroomRepository.selectUserChatRooms(connection, mem_no, partner_mem_no);
 
             if (checkList[0] == undefined) {
